@@ -3,7 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { LoaderIcon } from 'lucide-react'
 import { labelsQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
-import { Badge } from '@/components/ui/badge'
+import { LabelCard } from '@/components/label-card'
 
 export const Route = createFileRoute('/labels')({
   component: LabelsPage,
@@ -34,31 +34,7 @@ function LabelsPage() {
       ) : (
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {labels.map((label) => (
-            <div
-              key={label.id}
-              className="flex items-center gap-3 rounded-md border p-3"
-            >
-              <div
-                className="size-4 shrink-0 rounded-full"
-                style={{ backgroundColor: `#${label.color}` }}
-              />
-              <div className="min-w-0">
-                <Badge
-                  variant="outline"
-                  style={{
-                    borderColor: `#${label.color}`,
-                    color: `#${label.color}`,
-                  }}
-                >
-                  {label.name}
-                </Badge>
-                {label.description && (
-                  <p className="mt-1 truncate text-xs text-muted-foreground">
-                    {label.description}
-                  </p>
-                )}
-              </div>
-            </div>
+            <LabelCard key={label.id} label={label} />
           ))}
         </div>
       )}
