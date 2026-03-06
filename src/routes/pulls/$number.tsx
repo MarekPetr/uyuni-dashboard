@@ -8,6 +8,7 @@ import {
   GitPullRequestIcon,
   LoaderIcon,
 } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
 import { pullRequestQueryOptions } from '@/lib/github/queries'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -126,8 +127,8 @@ function PullRequestDetailPage() {
 
       {pr.body && (
         <Card>
-          <CardContent className="pt-6">
-            <pre className="whitespace-pre-wrap text-sm">{pr.body}</pre>
+          <CardContent className="prose prose-invert max-w-none pt-6">
+            <ReactMarkdown>{pr.body}</ReactMarkdown>
           </CardContent>
         </Card>
       )}

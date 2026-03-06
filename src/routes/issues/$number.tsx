@@ -7,6 +7,7 @@ import {
   ExternalLinkIcon,
   LoaderIcon,
 } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
 import {
   issueCommentsInfiniteQueryOptions,
   issueQueryOptions,
@@ -119,7 +120,7 @@ function IssueDetailPage() {
       {issue.body && (
         <Card>
           <CardContent className="prose prose-invert max-w-none pt-6">
-            <pre className="whitespace-pre-wrap text-sm">{issue.body}</pre>
+            <ReactMarkdown>{issue.body}</ReactMarkdown>
           </CardContent>
         </Card>
       )}
@@ -142,10 +143,8 @@ function IssueDetailPage() {
                   {new Date(comment.created_at).toLocaleDateString()}
                 </span>
               </CardHeader>
-              <CardContent>
-                <pre className="whitespace-pre-wrap text-sm">
-                  {comment.body}
-                </pre>
+              <CardContent className="prose prose-invert max-w-none">
+                <ReactMarkdown>{comment.body}</ReactMarkdown>
               </CardContent>
             </Card>
           ))}

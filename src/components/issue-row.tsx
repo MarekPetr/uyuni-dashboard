@@ -1,9 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import {
-  CircleCheckIcon,
-  CircleDotIcon,
-  MessageSquareIcon,
-} from 'lucide-react'
+import { CircleCheckIcon, CircleDotIcon, MessageSquareIcon } from 'lucide-react'
 import type { Issue } from '@/lib/github/types'
 import { Badge } from '@/components/ui/badge'
 
@@ -38,9 +34,7 @@ export function IssueRow({ issue }: { issue: Issue }) {
         </div>
         <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
           <span>#{issue.number}</span>
-          <span>
-            opened {new Date(issue.created_at).toLocaleDateString()}
-          </span>
+          <span>opened {new Date(issue.created_at).toLocaleDateString()}</span>
           <span>by {issue.user.login}</span>
           {issue.comments > 0 && (
             <span className="flex items-center gap-1">
