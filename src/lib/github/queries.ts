@@ -11,11 +11,14 @@ import {
 } from './client'
 import type { IssueSearchParams, PullRequestSearchParams } from './types'
 
+const oneMinuteInMs = 60 * 1000
+const fiveMinutesInMs = 5 * oneMinuteInMs
+
 export const repositoryQueryOptions = () =>
   queryOptions({
     queryKey: ['repository'],
     queryFn: getRepository,
-    staleTime: 5 * 60 * 1000,
+    staleTime: fiveMinutesInMs,
   })
 
 export const issuesInfiniteQueryOptions = (
@@ -33,6 +36,7 @@ export const issueQueryOptions = (number: number) =>
   queryOptions({
     queryKey: ['issue', number],
     queryFn: () => getIssue(number),
+    staleTime: fiveMinutesInMs,
   })
 
 export const issueCommentsInfiniteQueryOptions = (issueNumber: number) =>
@@ -41,6 +45,7 @@ export const issueCommentsInfiniteQueryOptions = (issueNumber: number) =>
     queryFn: ({ pageParam }) => getIssueComments(issueNumber, pageParam, 30),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.pagination.nextPage,
+    staleTime: oneMinuteInMs,
   })
 
 export const pullRequestsInfiniteQueryOptions = (
@@ -52,12 +57,14 @@ export const pullRequestsInfiniteQueryOptions = (
       getPullRequests({ ...params, page: pageParam, per_page: 30 }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.pagination.nextPage,
+    staleTime: oneMinuteInMs,
   })
 
 export const pullRequestQueryOptions = (number: number) =>
   queryOptions({
     queryKey: ['pullRequest', number],
     queryFn: () => getPullRequest(number),
+    staleTime: oneMinuteInMs,
   })
 
 export const labelsQueryOptions = () =>
@@ -66,11 +73,12 @@ export const labelsQueryOptions = () =>
     queryFn: ({ pageParam }) => getLabels(pageParam, 100),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.pagination.nextPage,
+    staleTime: fiveMinutesInMs,
   })
 
 export const projectsQueryOptions = () =>
   queryOptions({
     queryKey: ['projects'],
     queryFn: getProjects,
-    staleTime: 5 * 60 * 1000,
+    staleTime: fiveMinutesInMs,
   })
