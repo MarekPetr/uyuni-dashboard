@@ -9,14 +9,14 @@ import {
   LayoutDashboardIcon,
   TagIcon,
 } from 'lucide-react'
-import { oneMinuteInMs } from '@/lib/utils'
+import { oneDayInMs, oneMinuteInMs } from '@/lib/utils'
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 1,
       staleTime: oneMinuteInMs,
-      gcTime: 24 * 60 * 60 * 1000,
+      gcTime: oneDayInMs,
       refetchOnWindowFocus: false,
     },
   },
@@ -44,7 +44,7 @@ function RootComponent() {
   return (
     <PersistQueryClientProvider
       client={queryClient}
-      persistOptions={{ persister, maxAge: 24 * 60 * 60 * 1000 }}
+      persistOptions={{ persister, maxAge: oneDayInMs }}
     >
       <div className="flex min-h-screen">
         <aside className="sticky top-0 flex h-screen w-56 shrink-0 flex-col border-r border-border bg-card">

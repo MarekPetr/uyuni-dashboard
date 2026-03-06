@@ -8,3 +8,4 @@ export function cn(...inputs: Array<ClassValue>) {
 
 export const oneMinuteInMs = 60 * 1000
 export const fiveMinutesInMs = 5 * oneMinuteInMs
+export const oneDayInMs = 24 * 60 * oneMinuteInMs
