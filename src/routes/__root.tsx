@@ -1,5 +1,7 @@
 import { Link, Outlet, createRootRoute } from '@tanstack/react-router'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient } from '@tanstack/react-query'
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
 import {
   CircleDotIcon,
   FolderKanbanIcon,
@@ -7,15 +9,21 @@ import {
   LayoutDashboardIcon,
   TagIcon,
 } from 'lucide-react'
+import { oneMinuteInMs } from '@/lib/utils'
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 1,
-      staleTime: 5 * 60 * 1000,
+      staleTime: oneMinuteInMs,
+      gcTime: 24 * 60 * 60 * 1000,
       refetchOnWindowFocus: false,
     },
   },
+})
+
+const persister = createSyncStoragePersister({
+  storage: localStorage,
 })
 
 export { queryClient }
@@ -34,7 +42,10 @@ const navItems = [
 
 function RootComponent() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{ persister, maxAge: 24 * 60 * 60 * 1000 }}
+    >
       <div className="flex min-h-screen">
         <aside className="sticky top-0 flex h-screen w-56 shrink-0 flex-col border-r border-border bg-card">
           <div className="flex h-14 items-center gap-2 border-b border-border px-4">
@@ -59,6 +70,6 @@ function RootComponent() {
           <Outlet />
         </main>
       </div>
-    </QueryClientProvider>
+    </PersistQueryClientProvider>
   )
 }

@@ -1,4 +1,5 @@
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
+import { fiveMinutesInMs, oneMinuteInMs } from '../utils'
 import {
   getIssue,
   getIssueComments,
@@ -10,9 +11,6 @@ import {
   getRepository,
 } from './client'
 import type { IssueSearchParams, PullRequestSearchParams } from './types'
-
-const oneMinuteInMs = 60 * 1000
-const fiveMinutesInMs = 5 * oneMinuteInMs
 
 export const repositoryQueryOptions = () =>
   queryOptions({
