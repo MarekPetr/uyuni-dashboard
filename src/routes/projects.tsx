@@ -27,8 +27,7 @@ function ProjectsPage() {
         </div>
       ) : error ? (
         <p className="py-12 text-center text-muted-foreground">
-          Could not load projects. The classic Projects API may be disabled for
-          this repository.
+          Could not load projects. A GitHub token is required to fetch projects (GraphQL API).
         </p>
       ) : !projects || projects.length === 0 ? (
         <p className="py-12 text-center text-muted-foreground">
@@ -40,9 +39,9 @@ function ProjectsPage() {
             <Card key={project.id}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  {project.name}
+                  {project.title}
                   <a
-                    href={project.html_url}
+                    href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-foreground"
@@ -51,14 +50,15 @@ function ProjectsPage() {
                   </a>
                 </CardTitle>
                 <CardDescription>
-                  Created {new Date(project.created_at).toLocaleDateString()} by{' '}
-                  {project.creator.login}
+                  Created {new Date(project.createdAt).toLocaleDateString()}
+                  {' '}
+                  by {project.creator.login}
                 </CardDescription>
               </CardHeader>
-              {project.body && (
+              {project.shortDescription && (
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    {project.body}
+                    {project.shortDescription}
                   </p>
                 </CardContent>
               )}

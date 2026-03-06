@@ -141,16 +141,16 @@ export interface Repository {
 }
 
 export interface Project {
-  id: number
-  node_id: string
-  name: string
-  body: string | null
-  number: number
-  state: 'open' | 'closed'
-  creator: GitHubUser
-  created_at: string
-  updated_at: string
-  html_url: string
+  id: string
+  title: string
+  shortDescription: string | null
+  url: string
+  closed: boolean
+  createdAt: string
+  updatedAt: string
+  creator: {
+    login: string
+  }
 }
 
 export interface Comment {

@@ -137,12 +137,41 @@ export async function getLabels(
 }
 
 export async function getProjects(): Promise<Array<Project>> {
-  const { data } = await github.get<Array<Project>>('/projects', {
-    params: { state: 'open' },
-    headers: {
-      // Projects API requires this preview header
-      Accept: 'application/vnd.github.inertia-preview+json',
-    },
-  })
-  return data
+  const token = import.meta.env.VITE_GITHUB_TOKEN as string | undefined
+  if (!token) {
+    throw new Error(
+      'A GitHub token is required to fetch projects (GraphQL API).',
+    )
+  }
+
+  const query = `
+    query($owner: String!, $repo: String!) {
+      repository(owner: $owner, name: $repo) {
+        projectsV2(first: 20, orderBy: {field: CREATED_AT, direction: DESC}) {
+          nodes {
+            id
+            title
+            shortDescription
+            url
+            closed
+            createdAt
+            updatedAt
+            creator {
+              login
+            }
+          }
+        }
+      }
+    }
+  `
+
+  const response = await axios.post(
+    'https://api.github.com/graphql',
+    { query, variables: { owner: OWNER, repo: REPO } },
+    { headers: { Authorization: `Bearer ${token}` } },
+  )
+
+  const nodes: Array<Project> =
+    response.data?.data?.repository?.projectsV2?.nodes ?? []
+  return nodes.filter((p) => !p.closed)
 }

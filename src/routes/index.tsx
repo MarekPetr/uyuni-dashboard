@@ -164,6 +164,7 @@ function DashboardPage() {
         <StatCard
           title="Open Projects"
           value={projects.data?.length ?? 0}
+          description={projects.error ? 'Requires auth token' : undefined}
           icon={FolderKanbanIcon}
           isLoading={projects.isLoading}
         />
