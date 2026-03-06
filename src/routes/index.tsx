@@ -1,11 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import {
-  repositoryQueryOptions,
+  CircleDotIcon,
+  FolderKanbanIcon,
+  GitForkIcon,
+  GitPullRequestIcon,
+  LoaderIcon,
+  StarIcon,
+  TagIcon,
+} from 'lucide-react'
+import {
   issuesInfiniteQueryOptions,
-  pullRequestsInfiniteQueryOptions,
   labelsQueryOptions,
   projectsQueryOptions,
+  pullRequestsInfiniteQueryOptions,
+  repositoryQueryOptions,
 } from '@/lib/github/queries'
 import {
   Card,
@@ -14,15 +23,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import {
-  CircleDotIcon,
-  GitPullRequestIcon,
-  TagIcon,
-  FolderKanbanIcon,
-  StarIcon,
-  GitForkIcon,
-  LoaderIcon,
-} from 'lucide-react'
 
 export const Route = createFileRoute('/')({ component: DashboardPage })
 

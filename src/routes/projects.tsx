@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
+import { ExternalLinkIcon, LoaderIcon } from 'lucide-react'
 import { projectsQueryOptions } from '@/lib/github/queries'
 import {
   Card,
@@ -8,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { ExternalLinkIcon, LoaderIcon } from 'lucide-react'
 
 export const Route = createFileRoute('/projects')({
   component: ProjectsPage,
@@ -51,8 +51,7 @@ function ProjectsPage() {
                   </a>
                 </CardTitle>
                 <CardDescription>
-                  Created{' '}
-                  {new Date(project.created_at).toLocaleDateString()} by{' '}
+                  Created {new Date(project.created_at).toLocaleDateString()} by{' '}
                   {project.creator.login}
                 </CardDescription>
               </CardHeader>

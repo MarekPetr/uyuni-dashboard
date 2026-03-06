@@ -1,16 +1,13 @@
+import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
 import {
-  queryOptions,
-  infiniteQueryOptions,
-} from '@tanstack/react-query'
-import {
-  getRepository,
-  getIssues,
   getIssue,
   getIssueComments,
-  getPullRequests,
-  getPullRequest,
+  getIssues,
   getLabels,
   getProjects,
+  getPullRequest,
+  getPullRequests,
+  getRepository,
 } from './client'
 import type { IssueSearchParams, PullRequestSearchParams } from './types'
 
@@ -41,8 +38,7 @@ export const issueQueryOptions = (number: number) =>
 export const issueCommentsInfiniteQueryOptions = (issueNumber: number) =>
   infiniteQueryOptions({
     queryKey: ['issueComments', issueNumber],
-    queryFn: ({ pageParam }) =>
-      getIssueComments(issueNumber, pageParam, 30),
+    queryFn: ({ pageParam }) => getIssueComments(issueNumber, pageParam, 30),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.pagination.nextPage,
   })

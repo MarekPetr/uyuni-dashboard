@@ -1,17 +1,17 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
+import {
+  ArrowLeftIcon,
+  ExternalLinkIcon,
+  GitMergeIcon,
+  GitPullRequestClosedIcon,
+  GitPullRequestIcon,
+  LoaderIcon,
+} from 'lucide-react'
 import { pullRequestQueryOptions } from '@/lib/github/queries'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import {
-  GitPullRequestIcon,
-  GitMergeIcon,
-  GitPullRequestClosedIcon,
-  ArrowLeftIcon,
-  ExternalLinkIcon,
-  LoaderIcon,
-} from 'lucide-react'
 
 export const Route = createFileRoute('/pulls/$number')({
   component: PullRequestDetailPage,
@@ -81,9 +81,7 @@ function PullRequestDetailPage() {
           <Badge className={`${statusColor} text-white`}>
             <StatusIcon className="mr-1 size-3" /> {statusLabel}
           </Badge>
-          {pr.draft && (
-            <Badge variant="secondary">Draft</Badge>
-          )}
+          {pr.draft && <Badge variant="secondary">Draft</Badge>}
           {pr.labels.map((label) => (
             <Badge
               key={label.id}
@@ -110,9 +108,7 @@ function PullRequestDetailPage() {
             className="size-5 rounded-full"
           />
           <span>{pr.user.login}</span>
-          <span>
-            opened {new Date(pr.created_at).toLocaleDateString()}
-          </span>
+          <span>opened {new Date(pr.created_at).toLocaleDateString()}</span>
           <span className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">
             {pr.head.ref}
           </span>

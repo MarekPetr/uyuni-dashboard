@@ -63,7 +63,7 @@ export async function getRepository(): Promise<Repository> {
 export async function getIssues(
   params: IssueSearchParams = {},
 ): Promise<PaginatedResponse<Issue>> {
-  const response = await github.get<Issue[]>('/issues', {
+  const response = await github.get<Array<Issue>>('/issues', {
     params: {
       state: params.state ?? 'open',
       sort: params.sort ?? 'created',
@@ -90,10 +90,9 @@ export async function getIssueComments(
   page = 1,
   perPage = 30,
 ): Promise<PaginatedResponse<Comment>> {
-  const response = await github.get<Comment[]>(
-    `/issues/${number}/comments`,
-    { params: { page, per_page: perPage } },
-  )
+  const response = await github.get<Array<Comment>>(`/issues/${number}/comments`, {
+    params: { page, per_page: perPage },
+  })
   const pagination = parseLinkHeader(response.headers.link ?? null)
   return { data: response.data, pagination }
 }
@@ -101,7 +100,7 @@ export async function getIssueComments(
 export async function getPullRequests(
   params: PullRequestSearchParams = {},
 ): Promise<PaginatedResponse<PullRequest>> {
-  const response = await github.get<PullRequest[]>('/pulls', {
+  const response = await github.get<Array<PullRequest>>('/pulls', {
     params: {
       state: params.state ?? 'open',
       sort: params.sort ?? 'created',
@@ -124,15 +123,15 @@ export async function getLabels(
   page = 1,
   perPage = 100,
 ): Promise<PaginatedResponse<Label>> {
-  const response = await github.get<Label[]>('/labels', {
+  const response = await github.get<Array<Label>>('/labels', {
     params: { page, per_page: perPage },
   })
   const pagination = parseLinkHeader(response.headers.link ?? null)
   return { data: response.data, pagination }
 }
 
-export async function getProjects(): Promise<Project[]> {
-  const { data } = await github.get<Project[]>('/projects', {
+export async function getProjects(): Promise<Array<Project>> {
+  const { data } = await github.get<Array<Project>>('/projects', {
     params: { state: 'open' },
     headers: {
       // Projects API requires this preview header

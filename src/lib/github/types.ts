@@ -42,9 +42,9 @@ export interface Issue {
   state: 'open' | 'closed'
   locked: boolean
   user: GitHubUser
-  labels: Label[]
+  labels: Array<Label>
   assignee: GitHubUser | null
-  assignees: GitHubUser[]
+  assignees: Array<GitHubUser>
   milestone: Milestone | null
   comments: number
   created_at: string
@@ -70,9 +70,9 @@ export interface PullRequest {
   state: 'open' | 'closed'
   locked: boolean
   user: GitHubUser
-  labels: Label[]
+  labels: Array<Label>
   assignee: GitHubUser | null
-  assignees: GitHubUser[]
+  assignees: Array<GitHubUser>
   milestone: Milestone | null
   comments: number
   created_at: string
@@ -119,7 +119,7 @@ export interface Repository {
   open_issues_count: number
   open_issues: number
   size: number
-  topics: string[]
+  topics: Array<string>
   archived: boolean
   disabled: boolean
   private: boolean
@@ -173,7 +173,7 @@ export interface PaginationInfo {
 }
 
 export interface PaginatedResponse<T> {
-  data: T[]
+  data: Array<T>
   pagination: PaginationInfo
 }
 

@@ -1,20 +1,20 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
+import { Link, createFileRoute } from '@tanstack/react-router'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import {
-  issueQueryOptions,
+  ArrowLeftIcon,
+  CircleCheckIcon,
+  CircleDotIcon,
+  ExternalLinkIcon,
+  LoaderIcon,
+} from 'lucide-react'
+import {
   issueCommentsInfiniteQueryOptions,
+  issueQueryOptions,
 } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import {
-  CircleDotIcon,
-  CircleCheckIcon,
-  ArrowLeftIcon,
-  ExternalLinkIcon,
-  LoaderIcon,
-} from 'lucide-react'
 
 export const Route = createFileRoute('/issues/$number')({
   component: IssueDetailPage,
@@ -24,19 +24,16 @@ function IssueDetailPage() {
   const { number } = Route.useParams()
   const issueNumber = parseInt(number, 10)
 
-  const { data: issue, isLoading } = useQuery(
-    issueQueryOptions(issueNumber),
-  )
+  const { data: issue, isLoading } = useQuery(issueQueryOptions(issueNumber))
   const comments = useInfiniteQuery(
     issueCommentsInfiniteQueryOptions(issueNumber),
   )
 
   const commentsList = comments.data?.pages.flatMap((p) => p.data) ?? []
 
-  const commentSentinelRef = useIntersectionObserver(
-    comments.fetchNextPage,
-    { enabled: comments.hasNextPage && !comments.isFetchingNextPage },
-  )
+  const commentSentinelRef = useIntersectionObserver(comments.fetchNextPage, {
+    enabled: comments.hasNextPage && !comments.isFetchingNextPage,
+  })
 
   if (isLoading) {
     return (
@@ -47,7 +44,11 @@ function IssueDetailPage() {
   }
 
   if (!issue) {
-    return <p className="py-12 text-center text-muted-foreground">Issue not found.</p>
+    return (
+      <p className="py-12 text-center text-muted-foreground">
+        Issue not found.
+      </p>
+    )
   }
 
   return (
@@ -106,13 +107,10 @@ function IssueDetailPage() {
             className="size-5 rounded-full"
           />
           <span>{issue.user.login}</span>
-          <span>
-            opened {new Date(issue.created_at).toLocaleDateString()}
-          </span>
+          <span>opened {new Date(issue.created_at).toLocaleDateString()}</span>
           {issue.assignees.length > 0 && (
             <span>
-              assigned to{' '}
-              {issue.assignees.map((a) => a.login).join(', ')}
+              assigned to {issue.assignees.map((a) => a.login).join(', ')}
             </span>
           )}
         </div>
@@ -128,9 +126,7 @@ function IssueDetailPage() {
 
       {commentsList.length > 0 && (
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold">
-            Comments ({issue.comments})
-          </h2>
+          <h2 className="text-lg font-semibold">Comments ({issue.comments})</h2>
           {commentsList.map((comment) => (
             <Card key={comment.id}>
               <CardHeader className="flex flex-row items-center gap-3 pb-2">

@@ -1,5 +1,13 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import {
+  GitMergeIcon,
+  GitPullRequestClosedIcon,
+  GitPullRequestIcon,
+  LoaderIcon,
+  MessageSquareIcon,
+} from 'lucide-react'
+import type { PullRequestSearchParams } from '@/lib/github/types'
 import { pullRequestsInfiniteQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { Badge } from '@/components/ui/badge'
@@ -11,14 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  GitPullRequestIcon,
-  GitMergeIcon,
-  GitPullRequestClosedIcon,
-  MessageSquareIcon,
-  LoaderIcon,
-} from 'lucide-react'
-import type { PullRequestSearchParams } from '@/lib/github/types'
 
 type PullsSearch = Omit<PullRequestSearchParams, 'page' | 'per_page'>
 
@@ -91,8 +91,7 @@ function PullRequestsPage() {
               navigate({
                 search: {
                   ...search,
-                  direction:
-                    search.direction === 'asc' ? 'desc' : 'asc',
+                  direction: search.direction === 'asc' ? 'desc' : 'asc',
                 },
               })
             }
@@ -151,8 +150,7 @@ function PullRequestsPage() {
                 <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
                   <span>#{pr.number}</span>
                   <span>
-                    opened{' '}
-                    {new Date(pr.created_at).toLocaleDateString()}
+                    opened {new Date(pr.created_at).toLocaleDateString()}
                   </span>
                   <span>by {pr.user.login}</span>
                   <span>

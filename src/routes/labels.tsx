@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import { LoaderIcon } from 'lucide-react'
 import { labelsQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { Badge } from '@/components/ui/badge'
-import { LoaderIcon } from 'lucide-react'
 
 export const Route = createFileRoute('/labels')({
   component: LabelsPage,

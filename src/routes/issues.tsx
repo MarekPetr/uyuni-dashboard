@@ -1,5 +1,12 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import {
+  CircleCheckIcon,
+  CircleDotIcon,
+  LoaderIcon,
+  MessageSquareIcon,
+} from 'lucide-react'
+import type { IssueSearchParams } from '@/lib/github/types'
 import { issuesInfiniteQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { Badge } from '@/components/ui/badge'
@@ -11,13 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  CircleDotIcon,
-  CircleCheckIcon,
-  MessageSquareIcon,
-  LoaderIcon,
-} from 'lucide-react'
-import type { IssueSearchParams } from '@/lib/github/types'
 
 type IssuesSearch = Omit<IssueSearchParams, 'page' | 'per_page'>
 
@@ -89,8 +89,7 @@ function IssuesPage() {
               navigate({
                 search: {
                   ...search,
-                  direction:
-                    search.direction === 'asc' ? 'desc' : 'asc',
+                  direction: search.direction === 'asc' ? 'desc' : 'asc',
                 },
               })
             }
@@ -142,8 +141,7 @@ function IssuesPage() {
                 <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
                   <span>#{issue.number}</span>
                   <span>
-                    opened{' '}
-                    {new Date(issue.created_at).toLocaleDateString()}
+                    opened {new Date(issue.created_at).toLocaleDateString()}
                   </span>
                   <span>by {issue.user.login}</span>
                   {issue.comments > 0 && (
