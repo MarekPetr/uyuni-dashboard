@@ -43,10 +43,13 @@ export function parseLinkHeader(header: string | null): PaginationInfo {
 }
 
 function createGitHubClient(): AxiosInstance {
+  const token = import.meta.env.VITE_GITHUB_TOKEN as string | undefined
+
   const client = axios.create({
     baseURL: `https://api.github.com/repos/${OWNER}/${REPO}`,
     headers: {
       Accept: 'application/vnd.github.v3+json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
   })
 
