@@ -90,9 +90,12 @@ export async function getIssueComments(
   page = 1,
   perPage = 30,
 ): Promise<PaginatedResponse<Comment>> {
-  const response = await github.get<Array<Comment>>(`/issues/${number}/comments`, {
-    params: { page, per_page: perPage },
-  })
+  const response = await github.get<Array<Comment>>(
+    `/issues/${number}/comments`,
+    {
+      params: { page, per_page: perPage },
+    },
+  )
   const pagination = parseLinkHeader(response.headers.link ?? null)
   return { data: response.data, pagination }
 }
