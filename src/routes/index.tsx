@@ -5,7 +5,6 @@ import {
   FolderKanbanIcon,
   GitForkIcon,
   GitPullRequestIcon,
-  LoaderIcon,
   StarIcon,
   TagIcon,
 } from 'lucide-react'
@@ -16,52 +15,9 @@ import {
   pullRequestsInfiniteQueryOptions,
   repositoryQueryOptions,
 } from '@/lib/github/queries'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { StatCard } from '@/components/stat-card'
 
 export const Route = createFileRoute('/')({ component: DashboardPage })
-
-function StatCard({
-  title,
-  value,
-  description,
-  icon: Icon,
-  isLoading,
-}: {
-  title: string
-  value: string | number
-  description?: string
-  icon: React.ComponentType<{ className?: string }>
-  isLoading?: boolean
-}) {
-  return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <Icon className="size-4 text-muted-foreground" />
-      </CardHeader>
-      <CardContent>
-        {isLoading ? (
-          <LoaderIcon className="size-5 animate-spin text-muted-foreground" />
-        ) : (
-          <>
-            <div className="text-2xl font-bold">{value}</div>
-            {description && (
-              <CardDescription className="text-xs">
-                {description}
-              </CardDescription>
-            )}
-          </>
-        )}
-      </CardContent>
-    </Card>
-  )
-}
 
 function DashboardPage() {
   const repo = useQuery(repositoryQueryOptions())
