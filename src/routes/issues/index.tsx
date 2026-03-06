@@ -5,14 +5,7 @@ import type { IssueSearchParams } from '@/lib/github/types'
 import { issuesInfiniteQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { IssueRow } from '@/components/issue-row'
-import { Button } from '@/components/ui/button'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { IssuesFilterBar } from '@/components/issues-filter-bar'
 
 type IssuesSearch = Omit<IssueSearchParams, 'page' | 'per_page'>
 
@@ -40,59 +33,10 @@ function IssuesPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Issues</h1>
-        <div className="flex items-center gap-2">
-          <Select
-            value={search.state ?? 'open'}
-            onValueChange={(value) =>
-              navigate({
-                search: { ...search, state: value as IssuesSearch['state'] },
-              })
-            }
-          >
-            <SelectTrigger className="w-32">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="open">Open</SelectItem>
-              <SelectItem value="closed">Closed</SelectItem>
-              <SelectItem value="all">All</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select
-            value={search.sort ?? 'created'}
-            onValueChange={(value) =>
-              navigate({
-                search: { ...search, sort: value as IssuesSearch['sort'] },
-              })
-            }
-          >
-            <SelectTrigger className="w-32">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="created">Created</SelectItem>
-              <SelectItem value="updated">Updated</SelectItem>
-              <SelectItem value="comments">Comments</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() =>
-              navigate({
-                search: {
-                  ...search,
-                  direction: search.direction === 'asc' ? 'desc' : 'asc',
-                },
-              })
-            }
-          >
-            {search.direction === 'asc' ? '↑ Asc' : '↓ Desc'}
-          </Button>
-        </div>
-      </div>
+      <IssuesFilterBar
+        search={search}
+        onSearchChange={(s) => navigate({ search: s })}
+      />
 
       {isLoading ? (
         <div className="flex justify-center py-12">
