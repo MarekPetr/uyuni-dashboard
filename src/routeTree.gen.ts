@@ -9,38 +9,146 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PullsRouteImport } from './routes/pulls'
+import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as LabelsRouteImport } from './routes/labels'
+import { Route as IssuesRouteImport } from './routes/issues'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PullsNumberRouteImport } from './routes/pulls.$number'
+import { Route as IssuesNumberRouteImport } from './routes/issues.$number'
 
+const PullsRoute = PullsRouteImport.update({
+  id: '/pulls',
+  path: '/pulls',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LabelsRoute = LabelsRouteImport.update({
+  id: '/labels',
+  path: '/labels',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IssuesRoute = IssuesRouteImport.update({
+  id: '/issues',
+  path: '/issues',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PullsNumberRoute = PullsNumberRouteImport.update({
+  id: '/$number',
+  path: '/$number',
+  getParentRoute: () => PullsRoute,
+} as any)
+const IssuesNumberRoute = IssuesNumberRouteImport.update({
+  id: '/$number',
+  path: '/$number',
+  getParentRoute: () => IssuesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/issues': typeof IssuesRouteWithChildren
+  '/labels': typeof LabelsRoute
+  '/projects': typeof ProjectsRoute
+  '/pulls': typeof PullsRouteWithChildren
+  '/issues/$number': typeof IssuesNumberRoute
+  '/pulls/$number': typeof PullsNumberRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/issues': typeof IssuesRouteWithChildren
+  '/labels': typeof LabelsRoute
+  '/projects': typeof ProjectsRoute
+  '/pulls': typeof PullsRouteWithChildren
+  '/issues/$number': typeof IssuesNumberRoute
+  '/pulls/$number': typeof PullsNumberRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/issues': typeof IssuesRouteWithChildren
+  '/labels': typeof LabelsRoute
+  '/projects': typeof ProjectsRoute
+  '/pulls': typeof PullsRouteWithChildren
+  '/issues/$number': typeof IssuesNumberRoute
+  '/pulls/$number': typeof PullsNumberRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/issues'
+    | '/labels'
+    | '/projects'
+    | '/pulls'
+    | '/issues/$number'
+    | '/pulls/$number'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/issues'
+    | '/labels'
+    | '/projects'
+    | '/pulls'
+    | '/issues/$number'
+    | '/pulls/$number'
+  id:
+    | '__root__'
+    | '/'
+    | '/issues'
+    | '/labels'
+    | '/projects'
+    | '/pulls'
+    | '/issues/$number'
+    | '/pulls/$number'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  IssuesRoute: typeof IssuesRouteWithChildren
+  LabelsRoute: typeof LabelsRoute
+  ProjectsRoute: typeof ProjectsRoute
+  PullsRoute: typeof PullsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/pulls': {
+      id: '/pulls'
+      path: '/pulls'
+      fullPath: '/pulls'
+      preLoaderRoute: typeof PullsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/labels': {
+      id: '/labels'
+      path: '/labels'
+      fullPath: '/labels'
+      preLoaderRoute: typeof LabelsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/issues': {
+      id: '/issues'
+      path: '/issues'
+      fullPath: '/issues'
+      preLoaderRoute: typeof IssuesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +156,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pulls/$number': {
+      id: '/pulls/$number'
+      path: '/$number'
+      fullPath: '/pulls/$number'
+      preLoaderRoute: typeof PullsNumberRouteImport
+      parentRoute: typeof PullsRoute
+    }
+    '/issues/$number': {
+      id: '/issues/$number'
+      path: '/$number'
+      fullPath: '/issues/$number'
+      preLoaderRoute: typeof IssuesNumberRouteImport
+      parentRoute: typeof IssuesRoute
+    }
   }
 }
 
+interface IssuesRouteChildren {
+  IssuesNumberRoute: typeof IssuesNumberRoute
+}
+
+const IssuesRouteChildren: IssuesRouteChildren = {
+  IssuesNumberRoute: IssuesNumberRoute,
+}
+
+const IssuesRouteWithChildren =
+  IssuesRoute._addFileChildren(IssuesRouteChildren)
+
+interface PullsRouteChildren {
+  PullsNumberRoute: typeof PullsNumberRoute
+}
+
+const PullsRouteChildren: PullsRouteChildren = {
+  PullsNumberRoute: PullsNumberRoute,
+}
+
+const PullsRouteWithChildren = PullsRoute._addFileChildren(PullsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  IssuesRoute: IssuesRouteWithChildren,
+  LabelsRoute: LabelsRoute,
+  ProjectsRoute: ProjectsRoute,
+  PullsRoute: PullsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
