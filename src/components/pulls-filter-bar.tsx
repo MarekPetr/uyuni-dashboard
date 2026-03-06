@@ -8,9 +8,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-type PullsSearch = Omit<PullRequestSearchParams, 'page' | 'per_page'>
+export type PullsSearch = Omit<PullRequestSearchParams, 'page' | 'per_page'>
 
-interface PullsFilterBarProps {
+export interface PullsFilterBarProps {
   search: PullsSearch
   onSearchChange: (search: PullsSearch) => void
 }

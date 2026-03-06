@@ -1,7 +1,7 @@
 import type { Label } from '@/lib/github/types'
 import { Badge } from '@/components/ui/badge'
 
-interface LabelCardProps {
+export interface LabelCardProps {
   label: Label
 }
 

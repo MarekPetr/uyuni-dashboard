@@ -8,9 +8,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-type IssuesSearch = Omit<IssueSearchParams, 'page' | 'per_page'>
+export type IssuesSearch = Omit<IssueSearchParams, 'page' | 'per_page'>
 
-interface IssuesFilterBarProps {
+export interface IssuesFilterBarProps {
   search: IssuesSearch
   onSearchChange: (search: IssuesSearch) => void
 }
