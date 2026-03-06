@@ -16,7 +16,7 @@ import {
 
 type IssuesSearch = Omit<IssueSearchParams, 'page' | 'per_page'>
 
-export const Route = createFileRoute('/issues')({
+export const Route = createFileRoute('/issues/')({
   component: IssuesPage,
   validateSearch: (search: Record<string, unknown>): IssuesSearch => ({
     state: (search.state as IssuesSearch['state']) ?? 'open',

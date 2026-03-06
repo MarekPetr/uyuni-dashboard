@@ -22,7 +22,7 @@ import {
 
 type PullsSearch = Omit<PullRequestSearchParams, 'page' | 'per_page'>
 
-export const Route = createFileRoute('/pulls')({
+export const Route = createFileRoute('/pulls/')({
   component: PullRequestsPage,
   validateSearch: (search: Record<string, unknown>): PullsSearch => ({
     state: (search.state as PullsSearch['state']) ?? 'open',
