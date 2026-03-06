@@ -9,14 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PullsRouteImport } from './routes/pulls'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as LabelsRouteImport } from './routes/labels'
+import { Route as IssuesRouteImport } from './routes/issues'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PullsIndexRouteImport } from './routes/pulls.index'
 import { Route as IssuesIndexRouteImport } from './routes/issues.index'
 import { Route as PullsNumberRouteImport } from './routes/pulls.$number'
 import { Route as IssuesNumberRouteImport } from './routes/issues.$number'
 
+const PullsRoute = PullsRouteImport.update({
+  id: '/pulls',
+  path: '/pulls',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProjectsRoute = ProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
@@ -27,20 +34,25 @@ const LabelsRoute = LabelsRouteImport.update({
   path: '/labels',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IssuesRoute = IssuesRouteImport.update({
+  id: '/issues',
+  path: '/issues',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PullsIndexRoute = PullsIndexRouteImport.update({
-  id: '/pulls/',
-  path: '/pulls/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => PullsRoute,
 } as any)
 const IssuesIndexRoute = IssuesIndexRouteImport.update({
-  id: '/issues/',
-  path: '/issues/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => IssuesRoute,
 } as any)
 const PullsNumberRoute = PullsNumberRouteImport.update({
   id: '/$number',
@@ -55,8 +67,10 @@ const IssuesNumberRoute = IssuesNumberRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/issues': typeof IssuesRouteWithChildren
   '/labels': typeof LabelsRoute
   '/projects': typeof ProjectsRoute
+  '/pulls': typeof PullsRouteWithChildren
   '/issues/$number': typeof IssuesNumberRoute
   '/pulls/$number': typeof PullsNumberRoute
   '/issues/': typeof IssuesIndexRoute
@@ -74,8 +88,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/issues': typeof IssuesRouteWithChildren
   '/labels': typeof LabelsRoute
   '/projects': typeof ProjectsRoute
+  '/pulls': typeof PullsRouteWithChildren
   '/issues/$number': typeof IssuesNumberRoute
   '/pulls/$number': typeof PullsNumberRoute
   '/issues/': typeof IssuesIndexRoute
@@ -85,8 +101,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/issues'
     | '/labels'
     | '/projects'
+    | '/pulls'
     | '/issues/$number'
     | '/pulls/$number'
     | '/issues/'
@@ -103,8 +121,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/issues'
     | '/labels'
     | '/projects'
+    | '/pulls'
     | '/issues/$number'
     | '/pulls/$number'
     | '/issues/'
@@ -113,14 +133,21 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  IssuesRoute: typeof IssuesRouteWithChildren
   LabelsRoute: typeof LabelsRoute
   ProjectsRoute: typeof ProjectsRoute
-  IssuesIndexRoute: typeof IssuesIndexRoute
-  PullsIndexRoute: typeof PullsIndexRoute
+  PullsRoute: typeof PullsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/pulls': {
+      id: '/pulls'
+      path: '/pulls'
+      fullPath: '/pulls'
+      preLoaderRoute: typeof PullsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/projects': {
       id: '/projects'
       path: '/projects'
@@ -135,6 +162,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabelsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/issues': {
+      id: '/issues'
+      path: '/issues'
+      fullPath: '/issues'
+      preLoaderRoute: typeof IssuesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -144,17 +178,17 @@ declare module '@tanstack/react-router' {
     }
     '/pulls/': {
       id: '/pulls/'
-      path: '/pulls'
+      path: '/'
       fullPath: '/pulls/'
       preLoaderRoute: typeof PullsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PullsRoute
     }
     '/issues/': {
       id: '/issues/'
-      path: '/issues'
+      path: '/'
       fullPath: '/issues/'
       preLoaderRoute: typeof IssuesIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof IssuesRoute
     }
     '/pulls/$number': {
       id: '/pulls/$number'
@@ -173,12 +207,37 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface IssuesRouteChildren {
+  IssuesNumberRoute: typeof IssuesNumberRoute
+  IssuesIndexRoute: typeof IssuesIndexRoute
+}
+
+const IssuesRouteChildren: IssuesRouteChildren = {
+  IssuesNumberRoute: IssuesNumberRoute,
+  IssuesIndexRoute: IssuesIndexRoute,
+}
+
+const IssuesRouteWithChildren =
+  IssuesRoute._addFileChildren(IssuesRouteChildren)
+
+interface PullsRouteChildren {
+  PullsNumberRoute: typeof PullsNumberRoute
+  PullsIndexRoute: typeof PullsIndexRoute
+}
+
+const PullsRouteChildren: PullsRouteChildren = {
+  PullsNumberRoute: PullsNumberRoute,
+  PullsIndexRoute: PullsIndexRoute,
+}
+
+const PullsRouteWithChildren = PullsRoute._addFileChildren(PullsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  IssuesRoute: IssuesRouteWithChildren,
   LabelsRoute: LabelsRoute,
   ProjectsRoute: ProjectsRoute,
-  IssuesIndexRoute: IssuesIndexRoute,
-  PullsIndexRoute: PullsIndexRoute,
+  PullsRoute: PullsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
