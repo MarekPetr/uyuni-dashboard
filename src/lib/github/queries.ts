@@ -1,5 +1,9 @@
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
 import { fiveMinutesInMs, oneMinuteInMs } from '../utils'
+import type {
+  IssueSearchParams,
+  PullRequestSearchParams,
+} from '@/lib/github/types'
 import {
   getIssue,
   getIssueComments,
@@ -9,8 +13,7 @@ import {
   getPullRequest,
   getPullRequests,
   getRepository,
-} from './client'
-import type { IssueSearchParams, PullRequestSearchParams } from './types'
+} from '@/lib/github/client'
 
 export const repositoryQueryOptions = () =>
   queryOptions({

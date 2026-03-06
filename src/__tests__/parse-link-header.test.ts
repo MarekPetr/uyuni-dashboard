@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseLinkHeader } from '../lib/github/client'
+import { parseLinkHeader } from '@/lib/github/client'
 
 describe('parseLinkHeader', () => {
   it('returns all nulls for null input', () => {

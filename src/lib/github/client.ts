@@ -11,7 +11,7 @@ import type {
   PullRequest,
   PullRequestSearchParams,
   Repository,
-} from './types'
+} from '@/lib/github/types'
 
 const OWNER = 'uyuni-project'
 const REPO = 'uyuni'
