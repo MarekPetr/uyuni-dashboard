@@ -1,14 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { ExternalLinkIcon, LoaderIcon } from 'lucide-react'
+import { LoaderIcon } from 'lucide-react'
 import { projectsQueryOptions } from '@/lib/github/queries'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { ProjectCard } from '@/components/project-card'
 
 export const Route = createFileRoute('/projects')({
   component: ProjectsPage,
@@ -37,32 +31,7 @@ function ProjectsPage() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
           {projects.map((project) => (
-            <Card key={project.id}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  {project.title}
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    <ExternalLinkIcon className="size-3" />
-                  </a>
-                </CardTitle>
-                <CardDescription>
-                  Created {new Date(project.createdAt).toLocaleDateString()} by{' '}
-                  {project.creator.login}
-                </CardDescription>
-              </CardHeader>
-              {project.shortDescription && (
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    {project.shortDescription}
-                  </p>
-                </CardContent>
-              )}
-            </Card>
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       )}
