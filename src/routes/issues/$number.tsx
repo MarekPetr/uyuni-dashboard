@@ -1,21 +1,12 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import {
-  ArrowLeftIcon,
-  CircleCheckIcon,
-  CircleDotIcon,
-  ExternalLinkIcon,
-  LoaderIcon,
-} from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { ArrowLeftIcon, ExternalLinkIcon, LoaderIcon } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
-import {
-  issueCommentsInfiniteQueryOptions,
-  issueQueryOptions,
-} from '@/lib/github/queries'
-import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
-import { Badge } from '@/components/ui/badge'
+import { issueQueryOptions } from '@/lib/github/queries'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
+import { IssueComments } from '@/components/issues/issue-comments'
+import { IssueHeader } from '@/components/issues/issue-header'
 
 export const Route = createFileRoute('/issues/$number')({
   component: IssueDetailPage,
@@ -26,15 +17,6 @@ function IssueDetailPage() {
   const issueNumber = parseInt(number, 10)
 
   const { data: issue, isLoading } = useQuery(issueQueryOptions(issueNumber))
-  const comments = useInfiniteQuery(
-    issueCommentsInfiniteQueryOptions(issueNumber),
-  )
-
-  const commentsList = comments.data?.pages.flatMap((p) => p.data) ?? []
-
-  const commentSentinelRef = useIntersectionObserver(comments.fetchNextPage, {
-    enabled: comments.hasNextPage && !comments.isFetchingNextPage,
-  })
 
   if (isLoading) {
     return (
@@ -71,51 +53,7 @@ function IssueDetailPage() {
         </a>
       </div>
 
-      <div>
-        <div className="flex items-center gap-2">
-          {issue.state === 'open' ? (
-            <Badge className="bg-green-600 text-white">
-              <CircleDotIcon className="mr-1 size-3" /> Open
-            </Badge>
-          ) : (
-            <Badge className="bg-purple-600 text-white">
-              <CircleCheckIcon className="mr-1 size-3" /> Closed
-            </Badge>
-          )}
-          {issue.labels.map((label) => (
-            <Badge
-              key={label.id}
-              variant="outline"
-              style={{
-                borderColor: `#${label.color}`,
-                color: `#${label.color}`,
-              }}
-            >
-              {label.name}
-            </Badge>
-          ))}
-        </div>
-        <h1 className="mt-2 text-2xl font-bold">
-          {issue.title}{' '}
-          <span className="font-normal text-muted-foreground">
-            #{issue.number}
-          </span>
-        </h1>
-        <div className="mt-1 flex items-center gap-3 text-sm text-muted-foreground">
-          <img
-            src={issue.user.avatar_url}
-            alt={issue.user.login}
-            className="size-5 rounded-full"
-          />
-          <span>{issue.user.login}</span>
-          <span>opened {new Date(issue.created_at).toLocaleDateString()}</span>
-          {issue.assignees.length > 0 && (
-            <span>
-              assigned to {issue.assignees.map((a) => a.login).join(', ')}
-            </span>
-          )}
-        </div>
-      </div>
+      <IssueHeader issue={issue} />
 
       {issue.body && (
         <Card>
@@ -125,36 +63,7 @@ function IssueDetailPage() {
         </Card>
       )}
 
-      {commentsList.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold">Comments ({issue.comments})</h2>
-          {commentsList.map((comment) => (
-            <Card key={comment.id}>
-              <CardHeader className="flex flex-row items-center gap-3 pb-2">
-                <img
-                  src={comment.user.avatar_url}
-                  alt={comment.user.login}
-                  className="size-6 rounded-full"
-                />
-                <span className="text-sm font-medium">
-                  {comment.user.login}
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  {new Date(comment.created_at).toLocaleDateString()}
-                </span>
-              </CardHeader>
-              <CardContent className="prose prose-invert max-w-none">
-                <ReactMarkdown>{comment.body}</ReactMarkdown>
-              </CardContent>
-            </Card>
-          ))}
-          <div ref={commentSentinelRef} className="flex justify-center py-2">
-            {comments.isFetchingNextPage && (
-              <LoaderIcon className="size-5 animate-spin text-muted-foreground" />
-            )}
-          </div>
-        </div>
-      )}
+      <IssueComments issueNumber={issueNumber} totalCount={issue.comments} />
     </div>
   )
 }

@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import type { IssueSearchParams } from '@/lib/github/types'
 import { issuesInfiniteQueryOptions } from '@/lib/github/queries'
-import { IssueRow } from '@/components/issue-row'
+import { IssueRow } from '@/components/issues/issue-row'
 import { IssuesFilterBar } from '@/components/filter-bar/issues-filter-bar'
 import { InfiniteList } from '@/components/infinite-list'
 
