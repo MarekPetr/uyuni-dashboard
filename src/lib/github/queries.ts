@@ -9,6 +9,7 @@ import {
   getIssueComments,
   getIssues,
   getLabels,
+  getLanguages,
   getProjects,
   getPullRequest,
   getPullRequests,
@@ -75,6 +76,13 @@ export const labelsQueryOptions = () =>
     queryFn: ({ pageParam }) => getLabels(pageParam, 100),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.pagination.nextPage,
+    staleTime: fiveMinutesInMs,
+  })
+
+export const languagesQueryOptions = () =>
+  queryOptions({
+    queryKey: ['languages'],
+    queryFn: getLanguages,
     staleTime: fiveMinutesInMs,
   })
 

@@ -8,6 +8,7 @@ import {
   StarIcon,
   TagIcon,
 } from 'lucide-react'
+import { LanguageChart } from '@/components/language-chart'
 import {
   labelsQueryOptions,
   projectsQueryOptions,
@@ -43,7 +44,7 @@ function DashboardPage() {
         )}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <StatCard
           title="Stars"
           value={repo.data?.stargazers_count ?? 0}
@@ -54,12 +55,6 @@ function DashboardPage() {
           title="Forks"
           value={repo.data?.forks_count ?? 0}
           icon={GitForkIcon}
-          isLoading={repo.isLoading}
-        />
-        <StatCard
-          title="Language"
-          value={repo.data?.language ?? '-'}
-          icon={TagIcon}
           isLoading={repo.isLoading}
         />
       </div>
@@ -106,6 +101,8 @@ function DashboardPage() {
           isLoading={!!getToken() && projects.isLoading}
         />
       </div>
+
+      <LanguageChart />
     </div>
   )
 }

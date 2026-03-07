@@ -161,6 +161,11 @@ export async function getSearchCount(
   return response.data.total_count
 }
 
+export async function getLanguages(): Promise<Record<string, number>> {
+  const { data } = await github.get<Record<string, number>>('/languages')
+  return data
+}
+
 export async function getProjects(): Promise<Array<Project>> {
   const token = getToken()
   if (!token) {
