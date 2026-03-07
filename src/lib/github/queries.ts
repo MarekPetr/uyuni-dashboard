@@ -13,6 +13,7 @@ import {
   getPullRequest,
   getPullRequests,
   getRepository,
+  getSearchCount,
 } from '@/lib/github/client'
 
 export const repositoryQueryOptions = () =>
@@ -74,6 +75,16 @@ export const labelsQueryOptions = () =>
     queryFn: ({ pageParam }) => getLabels(pageParam, 100),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.pagination.nextPage,
+    staleTime: fiveMinutesInMs,
+  })
+
+export const searchCountQueryOptions = (
+  type: 'issue' | 'pr',
+  state: 'open' | 'closed',
+) =>
+  queryOptions({
+    queryKey: ['searchCount', type, state],
+    queryFn: () => getSearchCount(type, state),
     staleTime: fiveMinutesInMs,
   })
 

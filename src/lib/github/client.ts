@@ -136,6 +136,31 @@ export async function getLabels(
   return { data: response.data, pagination }
 }
 
+interface SearchResponse {
+  total_count: number
+}
+
+export async function getSearchCount(
+  type: 'issue' | 'pr',
+  state: 'open' | 'closed',
+): Promise<number> {
+  const token = getToken()
+  const response = await axios.get<SearchResponse>(
+    'https://api.github.com/search/issues',
+    {
+      params: {
+        q: `repo:${OWNER}/${REPO} type:${type} state:${state}`,
+        per_page: 1,
+      },
+      headers: {
+        Accept: 'application/vnd.github.v3+json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    },
+  )
+  return response.data.total_count
+}
+
 export async function getProjects(): Promise<Array<Project>> {
   const token = getToken()
   if (!token) {

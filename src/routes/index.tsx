@@ -9,11 +9,10 @@ import {
   TagIcon,
 } from 'lucide-react'
 import {
-  issuesInfiniteQueryOptions,
   labelsQueryOptions,
   projectsQueryOptions,
-  pullRequestsInfiniteQueryOptions,
   repositoryQueryOptions,
+  searchCountQueryOptions,
 } from '@/lib/github/queries'
 import { StatCard } from '@/components/stat-card'
 import { getToken } from '@/lib/github/auth'
@@ -22,22 +21,13 @@ export const Route = createFileRoute('/')({ component: DashboardPage })
 
 function DashboardPage() {
   const repo = useQuery(repositoryQueryOptions())
-  const openIssues = useInfiniteQuery(
-    issuesInfiniteQueryOptions({ state: 'open' }),
-  )
-  const closedIssues = useInfiniteQuery(
-    issuesInfiniteQueryOptions({ state: 'closed' }),
-  )
-  const openPRs = useInfiniteQuery(
-    pullRequestsInfiniteQueryOptions({ state: 'open' }),
-  )
-  const closedPRs = useInfiniteQuery(
-    pullRequestsInfiniteQueryOptions({ state: 'closed' }),
-  )
+  const openIssues = useQuery(searchCountQueryOptions('issue', 'open'))
+  const closedIssues = useQuery(searchCountQueryOptions('issue', 'closed'))
+  const openPRs = useQuery(searchCountQueryOptions('pr', 'open'))
+  const closedPRs = useQuery(searchCountQueryOptions('pr', 'closed'))
   const labels = useInfiniteQuery(labelsQueryOptions())
   const projects = useQuery(projectsQueryOptions())
 
-  const openIssueCount = repo.data?.open_issues_count
   const totalLabels = labels.data?.pages.flatMap((p) => p.data).length
 
   return (
@@ -67,12 +57,6 @@ function DashboardPage() {
           isLoading={repo.isLoading}
         />
         <StatCard
-          title="Open Issues"
-          value={openIssueCount ?? 0}
-          icon={CircleDotIcon}
-          isLoading={repo.isLoading}
-        />
-        <StatCard
           title="Language"
           value={repo.data?.language ?? '-'}
           icon={TagIcon}
@@ -83,29 +67,25 @@ function DashboardPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Open Issues"
-          value={openIssues.data?.pages[0]?.data.length ?? 0}
-          description="First page loaded"
+          value={openIssues.data ?? 0}
           icon={CircleDotIcon}
           isLoading={openIssues.isLoading}
         />
         <StatCard
           title="Closed Issues"
-          value={closedIssues.data?.pages[0]?.data.length ?? 0}
-          description="First page loaded"
+          value={closedIssues.data ?? 0}
           icon={CircleDotIcon}
           isLoading={closedIssues.isLoading}
         />
         <StatCard
           title="Open PRs"
-          value={openPRs.data?.pages[0]?.data.length ?? 0}
-          description="First page loaded"
+          value={openPRs.data ?? 0}
           icon={GitPullRequestIcon}
           isLoading={openPRs.isLoading}
         />
         <StatCard
           title="Closed PRs"
-          value={closedPRs.data?.pages[0]?.data.length ?? 0}
-          description="First page loaded"
+          value={closedPRs.data ?? 0}
           icon={GitPullRequestIcon}
           isLoading={closedPRs.isLoading}
         />
