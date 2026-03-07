@@ -34,7 +34,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </CardHeader>
       {project.shortDescription && (
         <CardContent>
-          <p className="text-sm text-muted-foreground">
+          <p
+            data-testid="project-description"
+            className="text-sm text-muted-foreground"
+          >
             {project.shortDescription}
           </p>
         </CardContent>

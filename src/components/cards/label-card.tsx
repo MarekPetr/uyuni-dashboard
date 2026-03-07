@@ -26,7 +26,10 @@ export function LabelCard({ label }: LabelCardProps) {
               {label.name}
             </Badge>
             {label.description && (
-              <p className="mt-1 truncate text-xs text-muted-foreground">
+              <p
+                data-testid="label-description"
+                className="mt-1 truncate text-xs text-muted-foreground"
+              >
                 {label.description}
               </p>
             )}
