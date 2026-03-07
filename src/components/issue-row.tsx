@@ -16,7 +16,7 @@ export function IssueRow({ issue }: { issue: Issue }) {
         <CircleCheckIcon className="mt-0.5 size-4 shrink-0 text-purple-500" />
       )}
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="font-medium">{issue.title}</span>
           {issue.labels.map((label) => (
             <Badge

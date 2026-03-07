@@ -69,7 +69,7 @@ function PullRequestsPage() {
                 <GitPullRequestClosedIcon className="mt-0.5 size-4 shrink-0 text-red-500" />
               )}
               <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="font-medium">{pr.title}</span>
                   {pr.draft && (
                     <Badge variant="secondary" className="text-xs">
