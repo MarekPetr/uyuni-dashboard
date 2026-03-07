@@ -9,7 +9,7 @@ import {
 import type { PullRequestSearchParams } from '@/lib/github/types'
 import { pullRequestsInfiniteQueryOptions } from '@/lib/github/queries'
 import { Badge } from '@/components/ui/badge'
-import { PullsFilterBar } from '@/components/pulls-filter-bar'
+import { PullsFilterBar } from '@/components/filter-bar/pulls-filter-bar'
 import { InfiniteList } from '@/components/infinite-list'
 
 type PullsSearch = Omit<PullRequestSearchParams, 'page' | 'per_page'>

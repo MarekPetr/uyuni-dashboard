@@ -1,5 +1,5 @@
 import type { IssueSearchParams } from '@/lib/github/types'
-import { FilterBar } from '@/components/filter-bar'
+import { FilterBar } from '@/components/filter-bar/filter-bar'
 
 export type IssuesSearch = Omit<IssueSearchParams, 'page' | 'per_page'>
 

@@ -1,5 +1,5 @@
 import type { PullRequestSearchParams } from '@/lib/github/types'
-import { FilterBar } from '@/components/filter-bar'
+import { FilterBar } from '@/components/filter-bar/filter-bar'
 
 export type PullsSearch = Omit<PullRequestSearchParams, 'page' | 'per_page'>
 
