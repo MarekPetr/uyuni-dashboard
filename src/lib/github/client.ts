@@ -12,6 +12,7 @@ import type {
   PullRequestSearchParams,
   Repository,
 } from '@/lib/github/types'
+import { getToken } from '@/lib/github/auth'
 
 const OWNER = 'uyuni-project'
 const REPO = 'uyuni'
@@ -42,21 +43,20 @@ export function parseLinkHeader(header: string | null): PaginationInfo {
   return info
 }
 
-function createGitHubClient(): AxiosInstance {
-  const token = import.meta.env.VITE_GITHUB_TOKEN as string | undefined
+const github = axios.create({
+  baseURL: `https://api.github.com/repos/${OWNER}/${REPO}`,
+  headers: {
+    Accept: 'application/vnd.github.v3+json',
+  },
+})
 
-  const client = axios.create({
-    baseURL: `https://api.github.com/repos/${OWNER}/${REPO}`,
-    headers: {
-      Accept: 'application/vnd.github.v3+json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-  })
-
-  return client
-}
-
-const github = createGitHubClient()
+github.interceptors.request.use((config) => {
+  const token = getToken()
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
 
 export async function getRepository(): Promise<Repository> {
   const { data } = await github.get<Repository>('')
@@ -137,7 +137,7 @@ export async function getLabels(
 }
 
 export async function getProjects(): Promise<Array<Project>> {
-  const token = import.meta.env.VITE_GITHUB_TOKEN as string | undefined
+  const token = getToken()
   if (!token) {
     throw new Error(
       'A GitHub token is required to fetch projects (GraphQL API).',
