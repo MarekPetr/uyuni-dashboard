@@ -15,7 +15,10 @@ const SORT_OPTIONS = [
   { value: 'long-running', label: 'Long Running' },
 ]
 
-export function PullsFilterBar({ search, onSearchChange }: PullsFilterBarProps) {
+export function PullsFilterBar({
+  search,
+  onSearchChange,
+}: PullsFilterBarProps) {
   return (
     <FilterBar
       title="Pull Requests"

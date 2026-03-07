@@ -1,13 +1,7 @@
 import { LoaderIcon } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { PieChart } from 'react-minimal-pie-chart'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { languagesQueryOptions } from '@/lib/github/queries'
 import { cn } from '@/lib/utils'
 

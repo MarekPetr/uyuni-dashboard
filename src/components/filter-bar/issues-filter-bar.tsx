@@ -14,7 +14,10 @@ const SORT_OPTIONS = [
   { value: 'comments', label: 'Comments' },
 ]
 
-export function IssuesFilterBar({ search, onSearchChange }: IssuesFilterBarProps) {
+export function IssuesFilterBar({
+  search,
+  onSearchChange,
+}: IssuesFilterBarProps) {
   return (
     <FilterBar
       title="Issues"

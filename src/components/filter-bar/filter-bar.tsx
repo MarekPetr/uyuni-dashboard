@@ -12,7 +12,9 @@ export interface SortOption {
   label: string
 }
 
-export interface FilterBarProps<T extends { state?: string; sort?: string; direction?: 'asc' | 'desc' }> {
+export interface FilterBarProps<
+  T extends { state?: string; sort?: string; direction?: 'asc' | 'desc' },
+> {
   title: string
   search: T
   onSearchChange: (search: T) => void
@@ -20,19 +22,18 @@ export interface FilterBarProps<T extends { state?: string; sort?: string; direc
   sortWidth?: string
 }
 
-export function FilterBar<T extends { state?: string; sort?: string; direction?: 'asc' | 'desc' }>({
-  title,
-  search,
-  onSearchChange,
-  sortOptions,
-}: FilterBarProps<T>) {
+export function FilterBar<
+  T extends { state?: string; sort?: string; direction?: 'asc' | 'desc' },
+>({ title, search, onSearchChange, sortOptions }: FilterBarProps<T>) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-2">
       <h1 className="text-2xl font-bold">{title}</h1>
       <div className="flex flex-wrap items-center gap-2">
         <Select
           value={search.state ?? 'open'}
-          onValueChange={(value) => onSearchChange({ ...search, state: value as T['state'] })}
+          onValueChange={(value) =>
+            onSearchChange({ ...search, state: value as T['state'] })
+          }
         >
           <SelectTrigger className="w-32">
             <SelectValue />
@@ -46,9 +47,11 @@ export function FilterBar<T extends { state?: string; sort?: string; direction?:
 
         <Select
           value={search.sort ?? 'created'}
-          onValueChange={(value) => onSearchChange({ ...search, sort: value as T['sort'] })}
+          onValueChange={(value) =>
+            onSearchChange({ ...search, sort: value as T['sort'] })
+          }
         >
-          <SelectTrigger className='w-32'>
+          <SelectTrigger className="w-32">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -64,7 +67,10 @@ export function FilterBar<T extends { state?: string; sort?: string; direction?:
           variant="outline"
           size="sm"
           onClick={() =>
-            onSearchChange({ ...search, direction: search.direction === 'asc' ? 'desc' : 'asc' })
+            onSearchChange({
+              ...search,
+              direction: search.direction === 'asc' ? 'desc' : 'asc',
+            })
           }
         >
           {search.direction === 'asc' ? '↑ Asc' : '↓ Desc'}
