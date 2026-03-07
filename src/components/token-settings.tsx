@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { KeyIcon, LogOutIcon } from 'lucide-react'
+import { KeyIcon, LogOutIcon, TrashIcon } from 'lucide-react'
 import { clearToken, getToken, setToken } from '@/lib/github/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -79,7 +79,7 @@ export function TokenSettings({ onTokenChange }: TokenSettingsProps) {
         <div className="flex items-center gap-1">
           <span className="flex-1 truncate px-1 text-xs text-muted-foreground">
             <KeyIcon className="mr-1 inline size-3 text-green-500" />
-            Token configured
+            Token set
           </span>
           <Button
             size="sm"
@@ -95,7 +95,7 @@ export function TokenSettings({ onTokenChange }: TokenSettingsProps) {
             className="h-7 text-xs text-destructive"
             onClick={handleClear}
           >
-            <LogOutIcon className="size-3" />
+            <TrashIcon className="size-3" />
           </Button>
         </div>
       ) : (
