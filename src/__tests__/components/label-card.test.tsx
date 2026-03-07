@@ -33,9 +33,10 @@ describe('LabelCard', () => {
   })
 
   it('applies the label color to the color dot', () => {
-    const { container } = render(<LabelCard label={baseLabel} />)
-    const dot = container.querySelector('.rounded-full')
-    expect(dot).toHaveStyle({ backgroundColor: 'rgb(255, 0, 0)' })
+    render(<LabelCard label={baseLabel} />)
+    expect(screen.getByTestId('label-color-dot')).toHaveStyle({
+      backgroundColor: 'rgb(255, 0, 0)',
+    })
   })
 
   it('applies the label color to the badge', () => {

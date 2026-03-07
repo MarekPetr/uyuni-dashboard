@@ -12,6 +12,7 @@ export function LabelCard({ label }: LabelCardProps) {
       <CardContent>
         <div className="flex items-center gap-3">
           <div
+            data-testid="label-color-dot"
             className="size-4 shrink-0 rounded-full"
             style={{ backgroundColor: `#${label.color}` }}
           />
