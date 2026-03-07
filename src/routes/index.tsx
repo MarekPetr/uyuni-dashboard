@@ -44,7 +44,7 @@ function DashboardPage() {
         )}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatCard
           title="Stars"
           value={repo.data?.stargazers_count ?? 0}
@@ -57,7 +57,7 @@ function DashboardPage() {
           icon={GitForkIcon}
           isLoading={repo.isLoading}
         />
-        <LanguageChart />
+        <LanguageChart className="sm:col-span-2 lg:col-span-1" />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

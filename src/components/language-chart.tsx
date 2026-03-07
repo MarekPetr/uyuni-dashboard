@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { languagesQueryOptions } from '@/lib/github/queries'
+import { cn } from '@/lib/utils'
 
 const COLORS = [
   '#3b82f6',
@@ -52,26 +53,23 @@ function prepareData(languages: Record<string, number>) {
   return entries
 }
 
-export function LanguageChart() {
+export function LanguageChart({ className }: { className?: string }) {
   const { data: languages, isLoading } = useQuery(languagesQueryOptions())
   const chartData = languages ? prepareData(languages) : []
 
   return (
-    <Card className="flex flex-col">
+    <Card className={cn('flex flex-col', className)}>
       <CardHeader>
         <CardTitle className="text-sm font-medium">Languages</CardTitle>
-        <CardDescription className="text-xs">
-          By source code volume
-        </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-1 items-center gap-6">
+      <CardContent className="flex flex-1 flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-6">
         {isLoading ? (
           <div className="flex w-full justify-center py-8">
             <LoaderIcon className="size-5 animate-spin text-muted-foreground" />
           </div>
         ) : (
           <>
-            <div className="size-[120px] shrink-0">
+            <div className="size-[100px] shrink-0 sm:size-[120px]">
               <PieChart
                 data={chartData}
                 lineWidth={30}
@@ -79,9 +77,9 @@ export function LanguageChart() {
                 animate
               />
             </div>
-            <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
+            <ul className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
               {chartData.map((entry) => (
-                <li key={entry.title} className="flex items-center gap-2">
+                <li key={entry.title} className="flex items-center gap-1.5">
                   <span
                     className="inline-block size-2.5 shrink-0 rounded-full"
                     style={{ backgroundColor: entry.color }}
