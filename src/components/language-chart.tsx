@@ -71,7 +71,7 @@ export function LanguageChart() {
           </div>
         ) : (
           <>
-            <div className="size-[160px] shrink-0">
+            <div className="size-[120px] shrink-0">
               <PieChart
                 data={chartData}
                 lineWidth={30}
@@ -79,7 +79,7 @@ export function LanguageChart() {
                 animate
               />
             </div>
-            <ul className="flex flex-col gap-1.5 text-sm">
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
               {chartData.map((entry) => (
                 <li key={entry.title} className="flex items-center gap-2">
                   <span
