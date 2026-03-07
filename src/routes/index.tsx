@@ -16,6 +16,7 @@ import {
   repositoryQueryOptions,
 } from '@/lib/github/queries'
 import { StatCard } from '@/components/stat-card'
+import { getToken } from '@/lib/github/auth'
 
 export const Route = createFileRoute('/')({ component: DashboardPage })
 
@@ -73,7 +74,7 @@ function DashboardPage() {
         />
         <StatCard
           title="Language"
-          value={repo.data?.language ?? 'N/A'}
+          value={repo.data?.language ?? '-'}
           icon={TagIcon}
           isLoading={repo.isLoading}
         />
@@ -119,10 +120,10 @@ function DashboardPage() {
         />
         <StatCard
           title="Open Projects"
-          value={projects.data?.length ?? 0}
-          description={projects.error ? 'Requires auth token' : undefined}
+          value={getToken() ? (projects.data?.length ?? 0) : '-'}
+          description={!getToken() ? 'Requires auth token' : undefined}
           icon={FolderKanbanIcon}
-          isLoading={projects.isLoading}
+          isLoading={!!getToken() && projects.isLoading}
         />
       </div>
     </div>
