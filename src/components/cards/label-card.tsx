@@ -8,7 +8,7 @@ export interface LabelCardProps {
 
 export function LabelCard({ label }: LabelCardProps) {
   return (
-    <Card size='sm'>
+    <Card size="sm">
       <CardContent>
         <div className="flex items-center gap-3">
           <div
@@ -34,6 +34,5 @@ export function LabelCard({ label }: LabelCardProps) {
         </div>
       </CardContent>
     </Card>
-
   )
 }
