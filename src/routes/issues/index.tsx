@@ -1,11 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { LoaderIcon } from 'lucide-react'
 import type { IssueSearchParams } from '@/lib/github/types'
 import { issuesInfiniteQueryOptions } from '@/lib/github/queries'
-import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { IssueRow } from '@/components/issue-row'
 import { IssuesFilterBar } from '@/components/issues-filter-bar'
+import { InfiniteList } from '@/components/infinite-list'
 
 type IssuesSearch = Omit<IssueSearchParams, 'page' | 'per_page'>
 
@@ -25,10 +24,6 @@ function IssuesPage() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery(issuesInfiniteQueryOptions(search))
 
-  const sentinelRef = useIntersectionObserver(fetchNextPage, {
-    enabled: hasNextPage && !isFetchingNextPage,
-  })
-
   const issues = data?.pages.flatMap((page) => page.data) ?? []
 
   return (
@@ -37,28 +32,16 @@ function IssuesPage() {
         search={search}
         onSearchChange={(s) => navigate({ search: s })}
       />
-
-      {isLoading ? (
-        <div className="flex justify-center py-12">
-          <LoaderIcon className="size-6 animate-spin text-muted-foreground" />
-        </div>
-      ) : issues.length === 0 ? (
-        <p className="py-12 text-center text-muted-foreground">
-          No issues found.
-        </p>
-      ) : (
-        <div className="divide-y divide-border rounded-md border">
-          {issues.map((issue) => (
-            <IssueRow key={issue.id} issue={issue} />
-          ))}
-        </div>
-      )}
-
-      <div ref={sentinelRef} className="flex justify-center py-4">
-        {isFetchingNextPage && (
-          <LoaderIcon className="size-5 animate-spin text-muted-foreground" />
-        )}
-      </div>
+      <InfiniteList
+        items={issues}
+        isLoading={isLoading}
+        isFetchingNextPage={isFetchingNextPage}
+        hasNextPage={hasNextPage}
+        fetchNextPage={fetchNextPage}
+        emptyMessage="No issues found."
+        keyExtractor={(issue) => issue.id}
+        renderItem={(issue) => <IssueRow issue={issue} />}
+      />
     </div>
   )
 }
