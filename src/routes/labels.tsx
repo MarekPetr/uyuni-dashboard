@@ -3,7 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { LoaderIcon } from 'lucide-react'
 import { labelsQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
-import { LabelCard } from '@/components/label-card'
+import { LabelCard } from '@/components/cards/label-card'
 
 export const Route = createFileRoute('/labels')({
   component: LabelsPage,

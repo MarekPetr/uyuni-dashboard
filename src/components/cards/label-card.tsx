@@ -7,7 +7,7 @@ export interface LabelCardProps {
 
 export function LabelCard({ label }: LabelCardProps) {
   return (
-    <div className="flex items-center gap-3 rounded-md border p-3">
+    <div className="flex items-center gap-3 rounded-md border p-3 bg-card">
       <div
         className="size-4 shrink-0 rounded-full"
         style={{ backgroundColor: `#${label.color}` }}

@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { LoaderIcon } from 'lucide-react'
 import { projectsQueryOptions } from '@/lib/github/queries'
-import { ProjectCard } from '@/components/project-card'
+import { ProjectCard } from '@/components/cards/project-card'
 
 export const Route = createFileRoute('/projects')({
   component: ProjectsPage,

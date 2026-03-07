@@ -15,7 +15,7 @@ import {
   repositoryQueryOptions,
   searchCountQueryOptions,
 } from '@/lib/github/queries'
-import { StatCard } from '@/components/stat-card'
+import { StatCard } from '@/components/cards/stat-card'
 import { getToken } from '@/lib/github/auth'
 
 export const Route = createFileRoute('/')({ component: DashboardPage })
