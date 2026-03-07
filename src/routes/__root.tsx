@@ -1,7 +1,7 @@
 import { Link, Outlet, createRootRoute } from '@tanstack/react-router'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import {
   CircleDotIcon,
   FolderKanbanIcon,
@@ -22,7 +22,7 @@ const queryClient = new QueryClient({
   },
 })
 
-const persister = createSyncStoragePersister({
+const persister = createAsyncStoragePersister({
   storage: localStorage,
 })
 
