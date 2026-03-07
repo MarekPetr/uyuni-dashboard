@@ -17,7 +17,11 @@ export function PullRequestHeader({ pr }: PullRequestHeaderProps) {
       ? GitPullRequestIcon
       : GitPullRequestClosedIcon
 
-  const statusLabel = pr.merged_at ? 'Merged' : pr.state === 'open' ? 'Open' : 'Closed'
+  const statusLabel = pr.merged_at
+    ? 'Merged'
+    : pr.state === 'open'
+      ? 'Open'
+      : 'Closed'
 
   const statusColor = pr.merged_at
     ? 'bg-purple-600'

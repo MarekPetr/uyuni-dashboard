@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { IssueComments } from '@/components/issues/issue-comments'
 import { IssueHeader } from '@/components/issues/issue-header'
+import { DetailPageNav } from '@/components/detail-page-nav'
 
 export const Route = createFileRoute('/issues/$number')({
   component: IssueDetailPage,
@@ -36,22 +37,7 @@ function IssueDetailPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2">
-        <Link to="/issues">
-          <Button variant="ghost" size="sm">
-            <ArrowLeftIcon className="size-4" />
-            Back
-          </Button>
-        </Link>
-        <a
-          href={issue.html_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="ml-auto text-sm text-muted-foreground hover:text-foreground"
-        >
-          <ExternalLinkIcon className="inline size-3" /> View on GitHub
-        </a>
-      </div>
+      <DetailPageNav backTo="/issues" externalUrl={issue.html_url} />
 
       <IssueHeader issue={issue} />
 

@@ -6,6 +6,7 @@ import { pullRequestQueryOptions } from '@/lib/github/queries'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { PullRequestHeader } from '@/components/pulls/pull-header'
+import { DetailPageNav } from '@/components/detail-page-nav'
 
 export const Route = createFileRoute('/pulls/$number')({
   component: PullRequestDetailPage,
@@ -35,22 +36,7 @@ function PullRequestDetailPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2">
-        <Link to="/pulls">
-          <Button variant="ghost" size="sm">
-            <ArrowLeftIcon className="size-4" />
-            Back
-          </Button>
-        </Link>
-        <a
-          href={pr.html_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="ml-auto text-sm text-muted-foreground hover:text-foreground"
-        >
-          <ExternalLinkIcon className="inline size-3" /> View on GitHub
-        </a>
-      </div>
+      <DetailPageNav backTo="/pulls" externalUrl={pr.html_url} />
 
       <PullRequestHeader pr={pr} />
 
