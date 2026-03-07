@@ -56,7 +56,7 @@ export function LanguageChart({ className }: { className?: string }) {
       <CardHeader>
         <CardTitle className="text-sm font-medium">Languages</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-1 flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-6">
+      <CardContent className="flex items-center gap-6">
         {isLoading ? (
           <div className="flex w-full justify-center py-8">
             <LoaderIcon className="size-5 animate-spin text-muted-foreground" />
