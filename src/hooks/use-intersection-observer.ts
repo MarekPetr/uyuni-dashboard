@@ -5,6 +5,8 @@ export function useIntersectionObserver(
   options?: { enabled?: boolean },
 ) {
   const ref = useRef<HTMLDivElement>(null)
+  const callbackRef = useRef(callback)
+  callbackRef.current = callback
 
   useEffect(() => {
     if (!ref.current || options?.enabled === false) return
@@ -12,7 +14,7 @@ export function useIntersectionObserver(
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0]?.isIntersecting) {
-          callback()
+          callbackRef.current()
         }
       },
       { rootMargin: '200px' },
@@ -20,7 +22,7 @@ export function useIntersectionObserver(
 
     observer.observe(ref.current)
     return () => observer.disconnect()
-  }, [callback, options?.enabled])
+  }, [options?.enabled])
 
   return ref
 }
