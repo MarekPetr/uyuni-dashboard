@@ -15,12 +15,12 @@ const mockComment: IssueComment = {
     html_url: 'https://github.com/octocat',
     gravatar_id: '',
     type: 'User',
-    site_admin: false
+    site_admin: false,
   },
   body: '**Bold** and regular text',
   created_at: '2024-03-01T10:00:00Z',
   updated_at: '2011-04-14T16:00:49Z',
-  author_association: "COLLABORATOR",
+  author_association: 'COLLABORATOR',
   html_url: 'https://github.com/repo/issue/1',
 }
 
@@ -46,7 +46,7 @@ describe('CommentCard', () => {
   it('formats and displays the date', () => {
     const date = screen.getByTestId('comment-date')
     expect(date).toHaveTextContent(
-      new Date('2024-03-01T10:00:00Z').toLocaleDateString()
+      new Date('2024-03-01T10:00:00Z').toLocaleDateString(),
     )
   })
 

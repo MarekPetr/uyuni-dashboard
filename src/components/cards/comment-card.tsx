@@ -19,11 +19,17 @@ export function CommentCard({ comment }: CommentCardProps) {
         <span className="text-sm font-medium" data-testid="comment-author">
           {comment.user.login}
         </span>
-        <span className="text-xs text-muted-foreground" data-testid="comment-date">
+        <span
+          className="text-xs text-muted-foreground"
+          data-testid="comment-date"
+        >
           {new Date(comment.created_at).toLocaleDateString()}
         </span>
       </CardHeader>
-      <CardContent className="prose prose-invert max-w-none" data-testid="comment-body">
+      <CardContent
+        className="prose prose-invert max-w-none"
+        data-testid="comment-body"
+      >
         <ReactMarkdown>{comment.body}</ReactMarkdown>
       </CardContent>
     </Card>
