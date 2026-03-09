@@ -32,7 +32,9 @@ export function DetailPage({
 
   if (!externalUrl) {
     return (
-      <p className="py-12 text-center text-muted-foreground">{notFoundMessage}</p>
+      <p className="py-12 text-center text-muted-foreground">
+        {notFoundMessage}
+      </p>
     )
   }
 

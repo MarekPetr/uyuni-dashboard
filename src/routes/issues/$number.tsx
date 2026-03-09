@@ -23,7 +23,14 @@ function IssueDetailPage() {
       notFoundMessage="Issue not found."
       isLoading={isLoading}
       header={issue && <IssueHeader issue={issue} />}
-      footer={issue && <IssueComments issueNumber={issueNumber} totalCount={issue.comments} />}
+      footer={
+        issue && (
+          <IssueComments
+            issueNumber={issueNumber}
+            totalCount={issue.comments}
+          />
+        )
+      }
     />
   )
 }
