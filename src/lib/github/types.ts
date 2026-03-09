@@ -153,7 +153,7 @@ export type Project = {
   }
 }
 
-export type Comment = {
+export type IssueComment = {
   id: number
   node_id: string
   body: string

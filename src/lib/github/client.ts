@@ -1,7 +1,7 @@
 import axios from 'axios'
 import type {
-  Comment,
   Issue,
+  IssueComment,
   IssueSearchParams,
   Label,
   PaginatedResponse,
@@ -91,8 +91,8 @@ export async function getIssueComments(
   number: number,
   page = 1,
   perPage = 30,
-): Promise<PaginatedResponse<Comment>> {
-  const response = await github.get<Array<Comment>>(
+): Promise<PaginatedResponse<IssueComment>> {
+  const response = await github.get<Array<IssueComment>>(
     `/issues/${number}/comments`,
     {
       params: { page, per_page: perPage },
