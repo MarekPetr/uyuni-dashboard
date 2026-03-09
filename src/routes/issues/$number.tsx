@@ -2,8 +2,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { issueQueryOptions } from '@/lib/github/queries'
 import { DetailPage } from '@/components/detail-page'
-import { IssueHeader } from '@/components/detail-page/issues/header'
-import { IssueComments } from '@/components/detail-page/issues/comments'
+import { IssueHeader } from '@/components/detail-page/issue/header'
+import { IssueComments } from '@/components/detail-page/issue/comments'
 
 export const Route = createFileRoute('/issues/$number')({
   component: IssueDetailPage,
