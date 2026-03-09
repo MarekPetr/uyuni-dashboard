@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { KeyIcon, TrashIcon } from 'lucide-react'
-import { clearToken, getToken, setToken } from '@/lib/github/auth'
+import { clearToken, getToken, setToken } from '@/lib/github/token-storage'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 

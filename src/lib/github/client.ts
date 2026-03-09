@@ -12,7 +12,7 @@ import type {
   PullRequestSearchParams,
   Repository,
 } from '@/lib/github/types'
-import { getToken } from '@/lib/github/auth'
+import { getToken } from '@/lib/github/token-storage'
 
 const OWNER = 'uyuni-project'
 const REPO = 'uyuni'
