@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [
     tanstackRouter(),
-    // this is the plugin that enables path aliases
+    // path aliases
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
     }),
