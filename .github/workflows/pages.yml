@@ -1,9 +1,9 @@
-name: Build and Deploy React App
+name: Build and Deploy App
 
 on:
   push:
     branches:
-      - main # Replace with your default branch name
+      - main
 
 jobs:
   build:
@@ -11,7 +11,7 @@ jobs:
 
     permissions:
       contents: read
-      pages: write # Allows the action to deploy to GitHub Pages
+      pages: write
       id-token: write
       actions: read
 
@@ -26,7 +26,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24' # Use the required Node.js version
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
