@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { CircleCheckIcon, CircleDotIcon, MessageSquareIcon } from 'lucide-react'
 import type { Issue } from '@/lib/github/types'
-import { Badge } from '@/components/ui/badge'
+import { LabelBadge } from '@/components/label'
 
 export function IssueRow({ issue }: { issue: Issue }) {
   return (
@@ -19,17 +19,7 @@ export function IssueRow({ issue }: { issue: Issue }) {
         <div className="flex flex-wrap items-center gap-2">
           <span className="font-medium">{issue.title}</span>
           {issue.labels.map((label) => (
-            <Badge
-              key={label.id}
-              variant="outline"
-              className="text-xs"
-              style={{
-                borderColor: `#${label.color}`,
-                color: `#${label.color}`,
-              }}
-            >
-              {label.name}
-            </Badge>
+            <LabelBadge key={label.id} label={label} className="text-xs"/ >
           ))}
         </div>
         <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">

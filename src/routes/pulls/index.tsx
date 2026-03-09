@@ -11,6 +11,7 @@ import { pullRequestsInfiniteQueryOptions } from '@/lib/github/queries'
 import { Badge } from '@/components/ui/badge'
 import { PullsFilterBar } from '@/components/filter-bar/pulls-filter-bar'
 import { InfiniteList } from '@/components/infinite-list'
+import { LabelBadge } from '@/components/label'
 
 type PullsSearch = Omit<PullRequestSearchParams, 'page' | 'per_page'>
 
@@ -68,17 +69,7 @@ function PullRequestsPage() {
                   </Badge>
                 )}
                 {pr.labels.map((label) => (
-                  <Badge
-                    key={label.id}
-                    variant="outline"
-                    className="text-xs"
-                    style={{
-                      borderColor: `#${label.color}`,
-                      color: `#${label.color}`,
-                    }}
-                  >
-                    {label.name}
-                  </Badge>
+                  <LabelBadge key={label.id} label={label} className="text-xs"/>
                 ))}
               </div>
               <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">

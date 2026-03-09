@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { issueQueryOptions } from '@/lib/github/queries'
-import { DetailPage } from '@/components/detail-page'
-import { IssueHeader } from '@/components/detail-page/issue/header'
-import { IssueComments } from '@/components/detail-page/issue/comments'
+import { DetailPageLayout } from '@/components/detail/layout'
+import { IssueHeader } from '@/components/detail/issue/header'
+import { IssueComments } from '@/components/detail/issue/comments'
 
 export const Route = createFileRoute('/issues/$number')({
   component: IssueDetailPage,
@@ -16,7 +16,7 @@ function IssueDetailPage() {
   const { data: issue, isLoading } = useQuery(issueQueryOptions(issueNumber))
 
   return (
-    <DetailPage
+    <DetailPageLayout
       backTo="/issues"
       externalUrl={issue?.html_url ?? ''}
       body={issue?.body}

@@ -1,9 +1,9 @@
 import { LoaderIcon } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { Card, CardContent } from '@/components/ui/card'
-import { DetailPageNav } from '@/components/detail-page/nav'
+import { DetailPageNav } from '@/components/detail/nav'
 
-export type DetailPageProps = {
+export type DetailPageLayoutProps = {
   backTo: string
   externalUrl: string
   body: string | null | undefined
@@ -13,7 +13,7 @@ export type DetailPageProps = {
   footer?: React.ReactNode
 }
 
-export function DetailPage({
+export function DetailPageLayout({
   backTo,
   externalUrl,
   body,
@@ -21,7 +21,7 @@ export function DetailPage({
   isLoading,
   header,
   footer,
-}: DetailPageProps) {
+}: DetailPageLayoutProps) {
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">

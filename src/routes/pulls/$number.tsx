@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { pullRequestQueryOptions } from '@/lib/github/queries'
-import { DetailPage } from '@/components/detail-page'
-import { PullRequestHeader } from '@/components/detail-page/pull-header'
+import { DetailPageLayout } from '@/components/detail/layout'
+import { PullRequestHeader } from '@/components/detail/pull-header'
 
 export const Route = createFileRoute('/pulls/$number')({
   component: PullRequestDetailPage,
@@ -15,7 +15,7 @@ function PullRequestDetailPage() {
   const { data: pr, isLoading } = useQuery(pullRequestQueryOptions(prNumber))
 
   return (
-    <DetailPage
+    <DetailPageLayout
       backTo="/pulls"
       externalUrl={pr?.html_url ?? ''}
       body={pr?.body}

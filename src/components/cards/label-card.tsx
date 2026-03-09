@@ -1,5 +1,5 @@
 import type { Label } from '@/lib/github/types'
-import { Badge } from '@/components/ui/badge'
+import { LabelBadge } from '@/components/label'
 import { Card, CardContent } from '@/components/ui/card'
 
 export type LabelCardProps = {
@@ -17,15 +17,7 @@ export function LabelCard({ label }: LabelCardProps) {
             style={{ backgroundColor: `#${label.color}` }}
           />
           <div className="min-w-0">
-            <Badge
-              variant="outline"
-              style={{
-                borderColor: `#${label.color}`,
-                color: `#${label.color}`,
-              }}
-            >
-              {label.name}
-            </Badge>
+            <LabelBadge label={label}/>
             {label.description && (
               <p
                 data-testid="label-description"
