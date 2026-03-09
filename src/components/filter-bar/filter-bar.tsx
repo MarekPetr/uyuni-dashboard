@@ -7,14 +7,14 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-export interface SortOption {
+export type SortOption = {
   value: string
   label: string
 }
 
-export interface FilterBarProps<
+export type FilterBarProps<
   T extends { state?: string; sort?: string; direction?: 'asc' | 'desc' },
-> {
+> = {
   title: string
   search: T
   onSearchChange: (search: T) => void

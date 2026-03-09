@@ -2,7 +2,7 @@ import type { Label } from '@/lib/github/types'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 
-export interface LabelCardProps {
+export type LabelCardProps = {
   label: Label
 }
 

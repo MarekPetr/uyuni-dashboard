@@ -4,7 +4,7 @@ import { clearToken, getToken, setToken } from '@/lib/github/token-storage'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-interface TokenSettingsProps {
+export type TokenSettingsProps = {
   onTokenChange: () => void
 }
 

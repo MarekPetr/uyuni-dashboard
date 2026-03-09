@@ -135,7 +135,7 @@ export async function getLabels(
   return { data: response.data, pagination }
 }
 
-interface SearchResponse {
+type SearchResponse = {
   total_count: number
 }
 

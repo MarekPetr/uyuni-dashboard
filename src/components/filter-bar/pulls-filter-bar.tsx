@@ -3,7 +3,7 @@ import { FilterBar } from '@/components/filter-bar/filter-bar'
 
 export type PullsSearch = Omit<PullRequestSearchParams, 'page' | 'per_page'>
 
-export interface PullsFilterBarProps {
+export type PullsFilterBarProps = {
   search: PullsSearch
   onSearchChange: (search: PullsSearch) => void
 }

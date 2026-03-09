@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { ArrowLeftIcon, ExternalLinkIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-export interface DetailPageNavProps {
+export type DetailPageNavProps = {
   backTo: string
   externalUrl: string
 }

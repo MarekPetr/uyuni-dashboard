@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import { Card, CardContent } from '@/components/ui/card'
 import { DetailPageNav } from '@/components/detail-page/nav'
 
-export interface DetailPageProps {
+export type DetailPageProps = {
   backTo: string
   externalUrl: string
   body: string | null | undefined

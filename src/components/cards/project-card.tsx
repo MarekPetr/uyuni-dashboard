@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-export interface ProjectCardProps {
+export type ProjectCardProps = {
   project: Project
 }
 

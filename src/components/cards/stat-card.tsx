@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-export interface StatCardProps {
+export type StatCardProps = {
   title: string
   value: string | number
   description?: string

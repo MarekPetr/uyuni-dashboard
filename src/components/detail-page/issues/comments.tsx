@@ -5,7 +5,7 @@ import { issueCommentsInfiniteQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 
-export interface IssueCommentsProps {
+export type IssueCommentsProps = {
   issueNumber: number
   totalCount: number
 }

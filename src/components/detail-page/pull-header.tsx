@@ -6,7 +6,7 @@ import {
 import type { PullRequest } from '@/lib/github/types'
 import { Badge } from '@/components/ui/badge'
 
-export interface PullRequestHeaderProps {
+export type PullRequestHeaderProps = {
   pr: PullRequest
 }
 

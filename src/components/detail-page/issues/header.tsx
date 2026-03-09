@@ -2,7 +2,7 @@ import { CircleCheckIcon, CircleDotIcon } from 'lucide-react'
 import type { Issue } from '@/lib/github/types'
 import { Badge } from '@/components/ui/badge'
 
-export interface IssueHeaderProps {
+export type IssueHeaderProps = {
   issue: Issue
 }
 

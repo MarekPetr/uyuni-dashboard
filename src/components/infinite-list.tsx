@@ -1,7 +1,7 @@
 import { LoaderIcon } from 'lucide-react'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 
-interface InfiniteListProps<T> {
+export type InfiniteListProps<T> = {
   items: Array<T>
   isLoading: boolean
   isFetchingNextPage: boolean

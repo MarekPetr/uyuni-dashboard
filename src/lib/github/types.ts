@@ -1,4 +1,4 @@
-export interface GitHubUser {
+export type GitHubUser = {
   login: string
   id: number
   node_id: string
@@ -9,7 +9,7 @@ export interface GitHubUser {
   site_admin: boolean
 }
 
-export interface Label {
+export type Label = {
   id: number
   node_id: string
   name: string
@@ -18,7 +18,7 @@ export interface Label {
   default: boolean
 }
 
-export interface Milestone {
+export type Milestone = {
   id: number
   node_id: string
   number: number
@@ -33,7 +33,7 @@ export interface Milestone {
   closed_at: string | null
 }
 
-export interface Issue {
+export type Issue = {
   id: number
   node_id: string
   number: number
@@ -61,7 +61,7 @@ export interface Issue {
   }
 }
 
-export interface PullRequest {
+export type PullRequest = {
   id: number
   node_id: string
   number: number
@@ -101,7 +101,7 @@ export interface PullRequest {
   }
 }
 
-export interface Repository {
+export type Repository = {
   id: number
   node_id: string
   name: string
@@ -140,7 +140,7 @@ export interface Repository {
   } | null
 }
 
-export interface Project {
+export type Project = {
   id: string
   title: string
   shortDescription: string | null
@@ -153,7 +153,7 @@ export interface Project {
   }
 }
 
-export interface Comment {
+export type Comment = {
   id: number
   node_id: string
   body: string
@@ -165,19 +165,19 @@ export interface Comment {
 }
 
 /** Parsed pagination info from the GitHub Link header */
-export interface PaginationInfo {
+export type PaginationInfo = {
   nextPage: number | null
   prevPage: number | null
   lastPage: number | null
   firstPage: number | null
 }
 
-export interface PaginatedResponse<T> {
+export type PaginatedResponse<T> = {
   data: Array<T>
   pagination: PaginationInfo
 }
 
-export interface IssueSearchParams {
+export type IssueSearchParams = {
   state?: 'open' | 'closed' | 'all'
   sort?: 'created' | 'updated' | 'comments'
   direction?: 'asc' | 'desc'
@@ -185,7 +185,7 @@ export interface IssueSearchParams {
   page?: number
 }
 
-export interface PullRequestSearchParams {
+export type PullRequestSearchParams = {
   state?: 'open' | 'closed' | 'all'
   sort?: 'created' | 'updated' | 'popularity' | 'long-running'
   direction?: 'asc' | 'desc'

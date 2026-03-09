@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { CircleDotIcon, MenuIcon, XIcon } from 'lucide-react'
 import { TokenSettings } from '@/components/token-settings'
 
-export interface NavItem {
+export type NavItem = {
   to: string
   label: string
   icon: React.ComponentType<{ className?: string }>

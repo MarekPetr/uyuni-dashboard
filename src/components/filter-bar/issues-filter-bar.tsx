@@ -3,7 +3,7 @@ import { FilterBar } from '@/components/filter-bar/filter-bar'
 
 export type IssuesSearch = Omit<IssueSearchParams, 'page' | 'per_page'>
 
-export interface IssuesFilterBarProps {
+export type IssuesFilterBarProps = {
   search: IssuesSearch
   onSearchChange: (search: IssuesSearch) => void
 }
