@@ -12,21 +12,21 @@ export type PullRequestHeaderProps = {
   pr: PullRequest
 }
 
-export function PullRequestHeader({ pr }: PullRequestHeaderProps) {
-  const getPRStatus = (pullRequest: PullRequest) => {
-    if (pullRequest.merged_at) {
-      return { icon: GitMergeIcon, label: 'Merged', color: 'bg-purple-600' }
-    }
-    if (pullRequest.state === 'open') {
-      return { icon: GitPullRequestIcon, label: 'Open', color: 'bg-green-600' }
-    }
-    return {
-      icon: GitPullRequestClosedIcon,
-      label: 'Closed',
-      color: 'bg-red-600',
-    }
+const getPRStatus = (pr: PullRequest) => {
+  if (pr.merged_at) {
+    return { icon: GitMergeIcon, label: 'Merged', color: 'bg-purple-600' }
   }
+  if (pr.state === 'open') {
+    return { icon: GitPullRequestIcon, label: 'Open', color: 'bg-green-600' }
+  }
+  return {
+    icon: GitPullRequestClosedIcon,
+    label: 'Closed',
+    color: 'bg-red-600',
+  }
+}
 
+export function PullRequestHeader({ pr }: PullRequestHeaderProps) {
   const {
     icon: StatusIcon,
     label: statusLabel,

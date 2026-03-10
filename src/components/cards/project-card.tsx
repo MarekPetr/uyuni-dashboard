@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { createProjectUrl } from '@/lib/github/client'
 
 export type ProjectCardProps = {
   project: Project
@@ -19,7 +20,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <CardTitle className="flex items-center gap-2">
           {project.title}
           <a
-            href={project.url}
+            href={createProjectUrl(project.number)}
             target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground hover:text-foreground"
@@ -28,17 +29,17 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </a>
         </CardTitle>
         <CardDescription>
-          Created {new Date(project.createdAt).toLocaleDateString()} by{' '}
+          Created {new Date(project.created_at).toLocaleDateString()} by{' '}
           {project.creator.login}
         </CardDescription>
       </CardHeader>
-      {project.shortDescription && (
+      {project.short_description && (
         <CardContent>
           <p
             data-testid="project-description"
             className="text-sm text-muted-foreground"
           >
-            {project.shortDescription}
+            {project.short_description}
           </p>
         </CardContent>
       )}

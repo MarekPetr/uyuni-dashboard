@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { projectsQueryOptions } from '@/lib/github/queries'
 import { ProjectCard } from '@/components/cards/project-card'
+import { LoadingGrid } from '@/components/loading-grid'
+import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { Spinner } from '@/components/spinner'
 
 export const Route = createFileRoute('/projects')({
@@ -9,32 +11,28 @@ export const Route = createFileRoute('/projects')({
 })
 
 function ProjectsPage() {
-  const { data: projects, isLoading, error } = useQuery(projectsQueryOptions())
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useInfiniteQuery(projectsQueryOptions())
+  const sentinelRef = useIntersectionObserver(fetchNextPage, {
+    enabled: hasNextPage && !isFetchingNextPage,
+  })
+  const projects = data?.pages.flatMap((page) => page.data) ?? []
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Projects</h1>
-
-      {isLoading ? (
-        <div className="flex justify-center py-12">
-          <Spinner size="md" />
+    <LoadingGrid
+      title="Projects"
+      isLoading={isLoading}
+      isEmpty={projects.length === 0}
+      emptyMessage="No open projects found."
+      footer={
+        <div ref={sentinelRef} className="flex justify-center py-4">
+          {isFetchingNextPage && <Spinner size="sm" />}
         </div>
-      ) : error ? (
-        <p className="py-12 text-center text-muted-foreground">
-          Could not load projects. A GitHub token with project read permissions
-          is required.
-        </p>
-      ) : !projects || projects.length === 0 ? (
-        <p className="py-12 text-center text-muted-foreground">
-          No open projects found.
-        </p>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-      )}
-    </div>
+      }
+    >
+      {projects.map((project) => (
+        <ProjectCard key={project.id} project={project} />
+      ))}
+    </LoadingGrid>
   )
 }

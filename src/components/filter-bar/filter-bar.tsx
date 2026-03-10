@@ -32,7 +32,7 @@ export function FilterBar<
         <Select
           value={search.state ?? 'open'}
           onValueChange={(value) =>
-            onSearchChange({ ...search, state: value as T['state'] })
+            onSearchChange({ ...search, state: value })
           }
         >
           <SelectTrigger className="w-32">
@@ -48,7 +48,7 @@ export function FilterBar<
         <Select
           value={search.sort ?? 'created'}
           onValueChange={(value) =>
-            onSearchChange({ ...search, sort: value as T['sort'] })
+            onSearchChange({ ...search, sort: value })
           }
         >
           <SelectTrigger className="w-32">

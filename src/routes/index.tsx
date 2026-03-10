@@ -11,12 +11,11 @@ import {
 import { LanguageChart } from '@/components/language-chart'
 import {
   labelsCountQueryOptions,
-  projectsQueryOptions,
+  projectsCountQueryOptions,
   repositoryQueryOptions,
   searchCountQueryOptions,
 } from '@/lib/github/queries'
 import { StatCard } from '@/components/cards/stat-card'
-import { getToken } from '@/lib/github/token-storage'
 
 export const Route = createFileRoute('/')({ component: DashboardPage })
 
@@ -27,7 +26,7 @@ function DashboardPage() {
   const openPRs = useQuery(searchCountQueryOptions('pr', 'open'))
   const closedPRs = useQuery(searchCountQueryOptions('pr', 'closed'))
   const labelsCount = useQuery(labelsCountQueryOptions())
-  const projects = useQuery(projectsQueryOptions())
+  const projects = useQuery(projectsCountQueryOptions())
 
   return (
     <div className="space-y-6">
@@ -45,13 +44,13 @@ function DashboardPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatCard
           title="Stars"
-          value={repo.data?.stargazers_count ?? 0}
+          value={repo.data?.stargazers_count}
           icon={StarIcon}
           isLoading={repo.isLoading}
         />
         <StatCard
           title="Forks"
-          value={repo.data?.forks_count ?? 0}
+          value={repo.data?.forks_count}
           icon={GitForkIcon}
           isLoading={repo.isLoading}
         />
@@ -61,25 +60,25 @@ function DashboardPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Open Issues"
-          value={openIssues.data ?? 0}
+          value={openIssues.data}
           icon={CircleDotIcon}
           isLoading={openIssues.isLoading}
         />
         <StatCard
           title="Closed Issues"
-          value={closedIssues.data ?? 0}
+          value={closedIssues.data}
           icon={CircleDotIcon}
           isLoading={closedIssues.isLoading}
         />
         <StatCard
           title="Open PRs"
-          value={openPRs.data ?? 0}
+          value={openPRs.data}
           icon={GitPullRequestIcon}
           isLoading={openPRs.isLoading}
         />
         <StatCard
           title="Closed PRs"
-          value={closedPRs.data ?? 0}
+          value={closedPRs.data}
           icon={GitPullRequestIcon}
           isLoading={closedPRs.isLoading}
         />
@@ -88,16 +87,15 @@ function DashboardPage() {
       <div className="grid gap-4 sm:grid-cols-2">
         <StatCard
           title="Labels"
-          value={labelsCount.data ?? 0}
+          value={labelsCount.data}
           icon={TagIcon}
           isLoading={labelsCount.isLoading}
         />
         <StatCard
           title="Open Projects"
-          value={getToken() ? (projects.data?.length ?? 0) : '-'}
-          description={!getToken() ? 'Requires auth token' : undefined}
+          value={projects.data}
           icon={FolderKanbanIcon}
-          isLoading={!!getToken() && projects.isLoading}
+          isLoading={projects.isLoading}
         />
       </div>
     </div>

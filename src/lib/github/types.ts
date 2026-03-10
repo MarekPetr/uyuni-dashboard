@@ -141,13 +141,13 @@ export type Repository = {
 }
 
 export type Project = {
-  id: string
+  id: number
+  number: number
   title: string
-  shortDescription: string | null
-  url: string
-  closed: boolean
-  createdAt: string
-  updatedAt: string
+  short_description: string | null
+  closed_at: boolean
+  created_at: string
+  updated_at: string
   creator: {
     login: string
   }

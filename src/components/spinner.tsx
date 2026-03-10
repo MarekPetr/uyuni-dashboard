@@ -10,7 +10,7 @@ const spinnerVariants = cva('animate-spin text-muted-foreground', {
     },
   },
   defaultVariants: {
-    size: "sm",
+    size: 'sm',
   },
 })
 

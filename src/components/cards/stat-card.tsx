@@ -9,7 +9,7 @@ import { Spinner } from '@/components/spinner'
 
 export type StatCardProps = {
   title: string
-  value: string | number
+  value?: string | number
   description?: string
   icon: React.ComponentType<{ className?: string }>
   isLoading?: boolean
@@ -39,7 +39,7 @@ export function StatCard({
         ) : (
           <>
             <div className="text-2xl font-bold" data-testid="stat-value">
-              {value}
+              {value ?? '-'}
             </div>
             {description && (
               <CardDescription

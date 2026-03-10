@@ -24,8 +24,8 @@ export function DetailHeader({
         {labels}
       </div>
       <h1 className="mt-2 text-2xl font-bold">
-        {title}{' '}
-        <span className="font-normal text-muted-foreground">#{number}</span>
+        {title}
+        <span className="font-normal text-muted-foreground"> #{number}</span>
       </h1>
       <div className="mt-1 flex items-center gap-3 text-sm text-muted-foreground">
         {meta}

@@ -45,7 +45,7 @@ export function parseLinkHeader(header: string | null): PaginationInfo {
 const github = axios.create({
   baseURL: `https://api.github.com/repos/${OWNER}/${REPO}`,
   headers: {
-    Accept: 'application/vnd.github.v3+json',
+    Accept: 'application/vnd.github+json',
   },
 })
 
@@ -139,21 +139,52 @@ type SearchResponse = {
   total_count: number
 }
 
+async function getLabelsCountWithToken(): Promise<number> {
+  const { data: repo } = await github.get<Repository>('')
+
+  const response = await github.get<SearchResponse>(
+    'https://api.github.com/search/labels',
+    {
+      params: {
+        repository_id: repo.id,
+        q: `repo:${OWNER}/${REPO}`,
+        per_page: 1,
+      },
+    },
+  )
+
+  return response.data.total_count
+}
+
+async function getLabelsCountWithoutToken(): Promise<number> {
+  let count = 0
+  let page = 1
+  let hasNext = true
+
+  while (hasNext) {
+    const { data, pagination } = await getLabels(page, 100)
+    count += data.length
+    hasNext = !!pagination.nextPage
+    page++
+  }
+
+  return count
+}
+
+export async function getLabelsCount(): Promise<number> {
+  return getToken() ? getLabelsCountWithToken() : getLabelsCountWithoutToken()
+}
+
 export async function getSearchCount(
   type: 'issue' | 'pr',
   state: 'open' | 'closed',
 ): Promise<number> {
-  const token = getToken()
-  const response = await axios.get<SearchResponse>(
+  const response = await github.get<SearchResponse>(
     'https://api.github.com/search/issues',
     {
       params: {
         q: `repo:${OWNER}/${REPO} type:${type} state:${state}`,
         per_page: 1,
-      },
-      headers: {
-        Accept: 'application/vnd.github.v3+json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     },
   )
@@ -165,64 +196,38 @@ export async function getLanguages(): Promise<Record<string, number>> {
   return data
 }
 
-export async function getLabelsCount(): Promise<number> {
-  const { data: repo } = await github.get<Repository>('')
-  const token = getToken()
-  
-  const response = await axios.get<SearchResponse>(
-    'https://api.github.com/search/labels',
+export async function getProjects(
+  page = 1,
+  perPage = 30,
+): Promise<PaginatedResponse<Project>> {
+  const response = await github.get<Array<Project>>(
+    `https://api.github.com/orgs/${OWNER}/projectsV2`,
     {
-      params: {
-        repository_id: repo.id,
-        q: '*', // Search for all labels using wildcard
-        per_page: 1,
-      },
-      headers: {
-        Accept: 'application/vnd.github+json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
+      params: { per_page: perPage, page },
     },
   )
-  
-  return response.data.total_count
+  const pagination = parseLinkHeader(response.headers.link ?? null)
+  return {
+    data: response.data.filter((project) => !project.closed_at),
+    pagination,
+  }
 }
 
-export async function getProjects(): Promise<Array<Project>> {
-  const token = getToken()
-  if (!token) {
-    throw new Error(
-      'A GitHub token is required to fetch projects (GraphQL API).',
-    )
+export async function getProjectsCount(): Promise<number> {
+  let count = 0
+  let page = 1
+  let hasNext = true
+
+  while (hasNext) {
+    const { data, pagination } = await getProjects(page, 100)
+    count += data.length
+    hasNext = !!pagination.nextPage
+    page++
   }
 
-  const query = `
-    query($owner: String!, $repo: String!) {
-      repository(owner: $owner, name: $repo) {
-        projectsV2(first: 20, orderBy: {field: CREATED_AT, direction: DESC}) {
-          nodes {
-            id
-            title
-            shortDescription
-            url
-            closed
-            createdAt
-            updatedAt
-            creator {
-              login
-            }
-          }
-        }
-      }
-    }
-  `
+  return count
+}
 
-  const response = await axios.post(
-    'https://api.github.com/graphql',
-    { query, variables: { owner: OWNER, repo: REPO } },
-    { headers: { Authorization: `Bearer ${token}` } },
-  )
-
-  const nodes: Array<Project> =
-    response.data?.data?.repository?.projectsV2?.nodes ?? []
-  return nodes.filter((p) => !p.closed)
+export function createProjectUrl(projectNumber: number) {
+  return `https://github.com/orgs/${OWNER}/projects/${projectNumber}`
 }

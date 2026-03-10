@@ -12,6 +12,7 @@ import {
   getLabelsCount,
   getLanguages,
   getProjects,
+  getProjectsCount,
   getPullRequest,
   getPullRequests,
   getRepository,
@@ -105,8 +106,17 @@ export const searchCountQueryOptions = (
   })
 
 export const projectsQueryOptions = () =>
-  queryOptions({
+  infiniteQueryOptions({
     queryKey: ['projects'],
-    queryFn: getProjects,
+    queryFn: ({ pageParam }) => getProjects(pageParam, 30),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.pagination.nextPage,
+    staleTime: fiveMinutesInMs,
+  })
+
+export const projectsCountQueryOptions = () =>
+  queryOptions({
+    queryKey: ['projectsCount'],
+    queryFn: getProjectsCount,
     staleTime: fiveMinutesInMs,
   })
