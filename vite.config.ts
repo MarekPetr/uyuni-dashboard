@@ -5,7 +5,6 @@ import viteTsConfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  base: '/uyuni-dashboard/',
   plugins: [
     tanstackRouter(),
     // this is the plugin that enables path aliases
