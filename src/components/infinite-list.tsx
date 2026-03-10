@@ -1,5 +1,5 @@
-import { LoaderIcon } from 'lucide-react'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
+import { Spinner } from '@/components/spinner'
 
 export type InfiniteListProps<T> = {
   items: Array<T>
@@ -29,7 +29,7 @@ export function InfiniteList<T>({
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
-        <LoaderIcon className="size-6 animate-spin text-muted-foreground" />
+        <Spinner size="md" />
       </div>
     )
   }
@@ -48,9 +48,7 @@ export function InfiniteList<T>({
         ))}
       </div>
       <div ref={sentinelRef} className="flex justify-center py-4">
-        {isFetchingNextPage && (
-          <LoaderIcon className="size-5 animate-spin text-muted-foreground" />
-        )}
+        {isFetchingNextPage && <Spinner size="sm" />}
       </div>
     </>
   )

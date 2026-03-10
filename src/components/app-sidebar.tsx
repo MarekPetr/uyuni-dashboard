@@ -4,6 +4,10 @@ import { useQueryClient } from '@tanstack/react-query'
 import { CircleDotIcon, MenuIcon, XIcon } from 'lucide-react'
 import { TokenSettings } from '@/components/token-settings'
 
+export type AppSideBarProps = {
+  navItems: ReadonlyArray<NavItem>
+}
+
 export type NavItem = {
   to: string
   label: string
@@ -44,7 +48,7 @@ function SidebarContent({
   )
 }
 
-export function AppSidebar({ navItems }: { navItems: ReadonlyArray<NavItem> }) {
+export function AppSidebar({ navItems }: AppSideBarProps) {
   const [open, setOpen] = useState(false)
 
   const pathname = useRouterState({ select: (s) => s.location.pathname })

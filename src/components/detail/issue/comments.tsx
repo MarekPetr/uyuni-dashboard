@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { LoaderIcon } from 'lucide-react'
 import { issueCommentsInfiniteQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { CommentCard } from '@/components/cards/comment-card'
+import { Spinner } from '@/components/spinner'
 
 export type IssueCommentsProps = {
   issueNumber: number
@@ -29,9 +29,7 @@ export function IssueComments({ issueNumber, totalCount }: IssueCommentsProps) {
         <CommentCard key={comment.id} comment={comment} />
       ))}
       <div ref={sentinelRef} className="flex justify-center py-2">
-        {comments.isFetchingNextPage && (
-          <LoaderIcon className="size-5 animate-spin text-muted-foreground" />
-        )}
+        {comments.isFetchingNextPage && <Spinner size="sm" />}
       </div>
     </div>
   )

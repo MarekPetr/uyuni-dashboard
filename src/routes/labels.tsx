@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { LoaderIcon } from 'lucide-react'
 import { labelsQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { LabelCard } from '@/components/cards/label-card'
+import { Spinner } from '@/components/spinner'
 
 export const Route = createFileRoute('/labels')({
   component: LabelsPage,
@@ -25,7 +25,7 @@ function LabelsPage() {
 
       {isLoading ? (
         <div className="flex justify-center py-12">
-          <LoaderIcon className="size-6 animate-spin text-muted-foreground" />
+          <Spinner size="md" />
         </div>
       ) : labels.length === 0 ? (
         <p className="py-12 text-center text-muted-foreground">
@@ -40,9 +40,7 @@ function LabelsPage() {
       )}
 
       <div ref={sentinelRef} className="flex justify-center py-4">
-        {isFetchingNextPage && (
-          <LoaderIcon className="size-5 animate-spin text-muted-foreground" />
-        )}
+        {isFetchingNextPage && <Spinner size="sm" />}
       </div>
     </div>
   )

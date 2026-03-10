@@ -17,7 +17,7 @@ export function LabelCard({ label }: LabelCardProps) {
             style={{ backgroundColor: `#${label.color}` }}
           />
           <div className="min-w-0">
-            <LabelBadge label={label}/>
+            <LabelBadge label={label} />
             {label.description && (
               <p
                 data-testid="label-description"

@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { LoaderIcon } from 'lucide-react'
 import { projectsQueryOptions } from '@/lib/github/queries'
 import { ProjectCard } from '@/components/cards/project-card'
+import { Spinner } from '@/components/spinner'
 
 export const Route = createFileRoute('/projects')({
   component: ProjectsPage,
@@ -17,7 +17,7 @@ function ProjectsPage() {
 
       {isLoading ? (
         <div className="flex justify-center py-12">
-          <LoaderIcon className="size-6 animate-spin text-muted-foreground" />
+          <Spinner size="md" />
         </div>
       ) : error ? (
         <p className="py-12 text-center text-muted-foreground">

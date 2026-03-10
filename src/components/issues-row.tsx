@@ -3,7 +3,11 @@ import { CircleCheckIcon, CircleDotIcon, MessageSquareIcon } from 'lucide-react'
 import type { Issue } from '@/lib/github/types'
 import { LabelBadge } from '@/components/label'
 
-export function IssueRow({ issue }: { issue: Issue }) {
+export type IssueRowProps = {
+  issue: Issue
+}
+
+export function IssueRow({ issue }: IssueRowProps) {
   return (
     <Link
       to="/issues/$number"
@@ -19,7 +23,7 @@ export function IssueRow({ issue }: { issue: Issue }) {
         <div className="flex flex-wrap items-center gap-2">
           <span className="font-medium">{issue.title}</span>
           {issue.labels.map((label) => (
-            <LabelBadge key={label.id} label={label} className="text-xs"/ >
+            <LabelBadge key={label.id} label={label} className="text-xs" />
           ))}
         </div>
         <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">

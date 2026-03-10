@@ -25,7 +25,7 @@ export function IssueHeader({ issue }: IssueHeaderProps) {
         )
       }
       labels={issue.labels.map((label) => (
-        <LabelBadge key={label.id} label={label}/>
+        <LabelBadge key={label.id} label={label} />
       ))}
       meta={
         <>

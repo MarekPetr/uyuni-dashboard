@@ -1,4 +1,3 @@
-import { LoaderIcon } from 'lucide-react'
 import {
   Card,
   CardContent,
@@ -6,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Spinner } from '@/components/spinner'
 
 export type StatCardProps = {
   title: string
@@ -35,10 +35,7 @@ export function StatCard({
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <LoaderIcon
-            className="size-5 animate-spin text-muted-foreground"
-            data-testid="stat-loader"
-          />
+          <Spinner size="sm" data-testid="stat-loader" />
         ) : (
           <>
             <div className="text-2xl font-bold" data-testid="stat-value">

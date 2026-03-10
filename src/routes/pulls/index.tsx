@@ -69,7 +69,11 @@ function PullRequestsPage() {
                   </Badge>
                 )}
                 {pr.labels.map((label) => (
-                  <LabelBadge key={label.id} label={label} className="text-xs"/>
+                  <LabelBadge
+                    key={label.id}
+                    label={label}
+                    className="text-xs"
+                  />
                 ))}
               </div>
               <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">

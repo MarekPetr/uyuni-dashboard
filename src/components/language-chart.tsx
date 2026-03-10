@@ -1,9 +1,9 @@
-import { LoaderIcon } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { PieChart } from 'react-minimal-pie-chart'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { languagesQueryOptions } from '@/lib/github/queries'
 import { cn } from '@/lib/utils'
+import { Spinner } from '@/components/spinner'
 
 const COLORS = [
   '#3b82f6',
@@ -47,7 +47,11 @@ function prepareData(languages: Record<string, number>) {
   return entries
 }
 
-export function LanguageChart({ className }: { className?: string }) {
+export type LanguageChartProps = {
+  className?: string
+}
+
+export function LanguageChart({ className }: LanguageChartProps) {
   const { data: languages, isLoading } = useQuery(languagesQueryOptions())
   const chartData = languages ? prepareData(languages) : []
 
@@ -59,7 +63,7 @@ export function LanguageChart({ className }: { className?: string }) {
       <CardContent className="flex items-center gap-6">
         {isLoading ? (
           <div className="flex w-full justify-center py-8">
-            <LoaderIcon className="size-5 animate-spin text-muted-foreground" />
+            <Spinner size="sm" />
           </div>
         ) : (
           <>

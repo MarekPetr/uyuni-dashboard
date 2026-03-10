@@ -1,7 +1,12 @@
 import type { Label } from '@/lib/github/types'
 import { Badge } from '@/components/ui/badge'
 
-export function LabelBadge({ label, className }: { label: Label, className?: string }) {
+export type LabelBadgeProps = {
+  label: Label
+  className?: string
+}
+
+export function LabelBadge({ label, className }: LabelBadgeProps) {
   return (
     <Badge
       key={label.id}

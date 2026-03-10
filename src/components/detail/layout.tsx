@@ -1,7 +1,7 @@
-import { LoaderIcon } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { Card, CardContent } from '@/components/ui/card'
 import { DetailPageNav } from '@/components/detail/nav'
+import { Spinner } from '@/components/spinner'
 
 export type DetailPageLayoutProps = {
   backTo: string
@@ -25,7 +25,7 @@ export function DetailPageLayout({
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
-        <LoaderIcon className="size-6 animate-spin text-muted-foreground" />
+        <Spinner size="md" />
       </div>
     )
   }
