@@ -165,6 +165,28 @@ export async function getLanguages(): Promise<Record<string, number>> {
   return data
 }
 
+export async function getLabelsCount(): Promise<number> {
+  const { data: repo } = await github.get<Repository>('')
+  const token = getToken()
+  
+  const response = await axios.get<SearchResponse>(
+    'https://api.github.com/search/labels',
+    {
+      params: {
+        repository_id: repo.id,
+        q: '*', // Search for all labels using wildcard
+        per_page: 1,
+      },
+      headers: {
+        Accept: 'application/vnd.github+json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    },
+  )
+  
+  return response.data.total_count
+}
+
 export async function getProjects(): Promise<Array<Project>> {
   const token = getToken()
   if (!token) {

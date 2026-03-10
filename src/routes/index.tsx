@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import {
   CircleDotIcon,
   FolderKanbanIcon,
@@ -10,7 +10,7 @@ import {
 } from 'lucide-react'
 import { LanguageChart } from '@/components/language-chart'
 import {
-  labelsQueryOptions,
+  labelsCountQueryOptions,
   projectsQueryOptions,
   repositoryQueryOptions,
   searchCountQueryOptions,
@@ -26,10 +26,8 @@ function DashboardPage() {
   const closedIssues = useQuery(searchCountQueryOptions('issue', 'closed'))
   const openPRs = useQuery(searchCountQueryOptions('pr', 'open'))
   const closedPRs = useQuery(searchCountQueryOptions('pr', 'closed'))
-  const labels = useInfiniteQuery(labelsQueryOptions())
+  const labelsCount = useQuery(labelsCountQueryOptions())
   const projects = useQuery(projectsQueryOptions())
-
-  const totalLabels = labels.data?.pages.flatMap((p) => p.data).length
 
   return (
     <div className="space-y-6">
@@ -90,9 +88,9 @@ function DashboardPage() {
       <div className="grid gap-4 sm:grid-cols-2">
         <StatCard
           title="Labels"
-          value={totalLabels ?? 0}
+          value={labelsCount.data ?? 0}
           icon={TagIcon}
-          isLoading={labels.isLoading}
+          isLoading={labelsCount.isLoading}
         />
         <StatCard
           title="Open Projects"
