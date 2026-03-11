@@ -20,6 +20,7 @@ import {
   GENERIC_ERROR_MESSAGE,
   RATE_LIMITS_EXCEEDED_MESSAGE,
 } from '@/lib/github/error'
+import { OWNER, REPO } from '@/lib/github/client'
 
 export const Route = createFileRoute('/')({ component: DashboardPage })
 
@@ -60,7 +61,7 @@ function DashboardPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold">
-          {repo.data?.full_name ?? 'Uyuni Dashboard'}
+          {repo.data?.full_name ?? `${OWNER}/${REPO}`}
         </h1>
         {repo.data?.description && (
           <p className="mt-1 text-sm text-muted-foreground">

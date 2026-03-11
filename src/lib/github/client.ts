@@ -14,8 +14,8 @@ import type {
 } from '@/lib/github/types'
 import { getToken } from '@/lib/github/token-storage'
 
-const OWNER = 'uyuni-project'
-const REPO = 'uyuni'
+export const OWNER = 'uyuni-project'
+export const REPO = 'uyuni'
 
 export function parseLinkHeader(header: string | null): PaginationInfo {
   const info: PaginationInfo = {
