@@ -4,7 +4,7 @@ import type { AxiosError } from 'axios'
 import { pullRequestQueryOptions } from '@/lib/github/queries'
 import { DetailPageLayout } from '@/components/detail/layout'
 import { PullRequestHeader } from '@/components/detail/pull-header'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
+import { getErrorMessage } from '@/lib/github/error'
 
 export const Route = createFileRoute('/pulls/$number')({
   component: PullRequestDetailPage,
@@ -21,19 +21,15 @@ function PullRequestDetailPage() {
   } = useQuery(pullRequestQueryOptions(prNumber))
 
   const apiError = error as AxiosError | null
-
-  const notFoundMessage =
-    apiError?.status === 403
-      ? RATE_LIMITS_EXCEEDED_MESSAGE
-      : 'Pull request not found.'
+  const errorMessage = getErrorMessage(apiError)
 
   return (
     <DetailPageLayout
       backTo="/pulls"
       externalUrl={pr?.html_url ?? ''}
       body={pr?.body}
-      notFound={!!apiError}
-      notFoundMessage={notFoundMessage}
+      isError={!!apiError}
+      errorMessage={errorMessage}
       isLoading={isLoading}
       header={pr && <PullRequestHeader pr={pr} />}
     />

@@ -5,7 +5,7 @@ import { issueQueryOptions } from '@/lib/github/queries'
 import { DetailPageLayout } from '@/components/detail/layout'
 import { IssueHeader } from '@/components/detail/issue/header'
 import { IssueComments } from '@/components/detail/issue/comments'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
+import { getErrorMessage } from '@/lib/github/error'
 
 export const Route = createFileRoute('/issues/$number')({
   component: IssueDetailPage,
@@ -22,17 +22,15 @@ function IssueDetailPage() {
   } = useQuery(issueQueryOptions(issueNumber))
 
   const apiError = error as AxiosError | null
-
-  const notFoundMessage =
-    apiError?.status === 403 ? RATE_LIMITS_EXCEEDED_MESSAGE : 'Issue not found.'
+  const errorMessage = getErrorMessage(apiError)
 
   return (
     <DetailPageLayout
       backTo="/issues"
       externalUrl={issue?.html_url ?? ''}
       body={issue?.body}
-      notFoundMessage={notFoundMessage}
-      notFound={!!apiError}
+      isError={!!apiError}
+      errorMessage={errorMessage}
       isLoading={isLoading}
       header={issue && <IssueHeader issue={issue} />}
       footer={

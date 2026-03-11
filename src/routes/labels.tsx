@@ -6,7 +6,7 @@ import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { LabelCard } from '@/components/cards/label-card'
 import { Spinner } from '@/components/spinner'
 import { LoadingGrid } from '@/components/loading-grid'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
+import { getErrorMessage } from '@/lib/github/error'
 
 export const Route = createFileRoute('/labels')({
   component: LabelsPage,
@@ -15,6 +15,7 @@ export const Route = createFileRoute('/labels')({
 function LabelsPage() {
   const {
     data,
+    isError,
     error,
     fetchNextPage,
     hasNextPage,
@@ -26,27 +27,27 @@ function LabelsPage() {
   })
   const labels = data?.pages.flatMap((page) => page.data) ?? []
 
-  const isError403 = (error as AxiosError | null)?.status === 403
-  const errorMessage = isError403
-    ? RATE_LIMITS_EXCEEDED_MESSAGE
-    : 'No labels found.'
+  const apiError = error as AxiosError | null
+  const errorMessage = getErrorMessage(apiError)
+
+  const isEmpty = labels.length === 0
 
   return (
     <LoadingGrid
       title="Labels"
       isLoading={isLoading}
-      isEmpty={labels.length === 0}
-      emptyMessage={errorMessage}
+      isEmpty={isEmpty}
+      emptyMessage="No labels found"
+      isError={isError}
+      errorMessage={errorMessage}
       footer={
         <div
           ref={sentinelRef}
           className="flex justify-center items-center py-4"
         >
           {isFetchingNextPage && <Spinner size="sm" />}
-          {isError403 && (
-            <p className="text-sm text-muted-foreground">
-              {RATE_LIMITS_EXCEEDED_MESSAGE}
-            </p>
+          {!isEmpty && apiError && (
+            <p className="text-sm text-destructive">{errorMessage}</p>
           )}
         </div>
       }

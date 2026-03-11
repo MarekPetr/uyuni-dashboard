@@ -8,6 +8,7 @@ import {
   StarIcon,
   TagIcon,
 } from 'lucide-react'
+import type { AxiosError } from 'axios'
 import { LanguageChart } from '@/components/language-chart'
 import {
   labelsCountQueryOptions,
@@ -16,6 +17,10 @@ import {
   searchCountQueryOptions,
 } from '@/lib/github/queries'
 import { StatCard } from '@/components/cards/stat-card'
+import {
+  GENERIC_ERROR_MESSAGE,
+  RATE_LIMITS_EXCEEDED_MESSAGE,
+} from '@/lib/github/error'
 
 export const Route = createFileRoute('/')({ component: DashboardPage })
 
@@ -28,11 +33,35 @@ function DashboardPage() {
   const labelsCount = useQuery(labelsCountQueryOptions())
   const projects = useQuery(projectsCountQueryOptions())
 
+  const errorOccured = [
+    repo.isError,
+    openIssues.isError,
+    closedIssues.isError,
+    openPRs.isError,
+    closedPRs.isError,
+    labelsCount.isError,
+    projects.isError,
+  ].some((isError) => isError)
+
+  const isError403 = [
+    repo.error,
+    openIssues.error,
+    closedIssues.error,
+    openPRs.error,
+    closedPRs.error,
+    labelsCount.error,
+    projects.error,
+  ].some((error) => (error as AxiosError | null)?.status === 403)
+
+  const errorMessage = isError403
+    ? RATE_LIMITS_EXCEEDED_MESSAGE
+    : GENERIC_ERROR_MESSAGE
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold">
-          {repo.data?.full_name ?? 'Loading...'}
+          {repo.data?.full_name ?? 'Uyuni Dashboard'}
         </h1>
         {repo.data?.description && (
           <p className="mt-1 text-sm text-muted-foreground">
@@ -40,6 +69,10 @@ function DashboardPage() {
           </p>
         )}
       </div>
+
+      {errorOccured && (
+        <p className="text-sm text-destructive text-center">{errorMessage}</p>
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatCard

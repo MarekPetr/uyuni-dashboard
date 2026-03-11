@@ -6,7 +6,7 @@ import { ProjectCard } from '@/components/cards/project-card'
 import { LoadingGrid } from '@/components/loading-grid'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { Spinner } from '@/components/spinner'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
+import { getErrorMessage } from '@/lib/github/error'
 
 export const Route = createFileRoute('/projects')({
   component: ProjectsPage,
@@ -16,6 +16,7 @@ function ProjectsPage() {
   const {
     data,
     error,
+    isError,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -26,27 +27,26 @@ function ProjectsPage() {
   })
   const projects = data?.pages.flatMap((page) => page.data) ?? []
 
-  const isError403 = (error as AxiosError | null)?.status === 403
-  const emptyMessage = isError403
-    ? RATE_LIMITS_EXCEEDED_MESSAGE
-    : 'No open projects found.'
+  const apiError = error as AxiosError | null
+  const errorMessage = getErrorMessage(apiError)
+  const isEmpty = projects.length === 0
 
   return (
     <LoadingGrid
       title="Projects"
       isLoading={isLoading}
-      isEmpty={projects.length === 0}
-      emptyMessage={emptyMessage}
+      isEmpty={isEmpty}
+      emptyMessage="No projects found"
+      isError={isError}
+      errorMessage={errorMessage}
       footer={
         <div
           ref={sentinelRef}
           className="flex justify-center items-center py-4"
         >
           {isFetchingNextPage && <Spinner size="sm" />}
-          {isError403 && (
-            <p className="text-sm text-muted-foreground">
-              {RATE_LIMITS_EXCEEDED_MESSAGE}
-            </p>
+          {!isEmpty && isError && (
+            <p className="text-sm text-destructive">{errorMessage}</p>
           )}
         </div>
       }

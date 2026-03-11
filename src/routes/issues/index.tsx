@@ -8,7 +8,7 @@ import { IssuesFilterBar } from '@/components/filter-bar/issues-filter-bar'
 import { LoadingList } from '@/components/loading-list'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { InfiniteScrollFooter } from '@/components/infinite-scroll-footer'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
+import { getErrorMessage } from '@/lib/github/error'
 
 type IssuesSearch = Omit<IssueSearchParams, 'page' | 'per_page'>
 
@@ -38,8 +38,8 @@ function IssuesPage() {
   })
 
   const apiError = error as AxiosError | null
-  const errorMessage =
-    apiError?.status === 403 ? RATE_LIMITS_EXCEEDED_MESSAGE : 'No issues found.'
+  const errorMessage = getErrorMessage(apiError)
+  const isEmpty = issues.length === 0
 
   return (
     <div className="space-y-4">
@@ -49,13 +49,15 @@ function IssuesPage() {
       />
       <LoadingList
         isLoading={isLoading}
-        isEmpty={issues.length === 0}
-        emptyMessage={errorMessage}
+        isEmpty={isEmpty}
+        emptyMessage="No issues found."
+        isError={!!apiError}
+        errorMessage={errorMessage}
         footer={
           <InfiniteScrollFooter
             sentinelRef={sentinelRef}
             isFetchingNextPage={isFetchingNextPage}
-            isError={!!apiError}
+            isError={!isEmpty && !!apiError}
             errorMessage={errorMessage}
           />
         }

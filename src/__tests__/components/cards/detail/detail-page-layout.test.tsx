@@ -23,8 +23,7 @@ const defaultProps = {
   backTo: '/issues',
   externalUrl: 'https://github.com/issues/1',
   body: null,
-  notFound: false,
-  notFoundMessage: 'Issue not found.',
+  isError: false,
   isLoading: false,
   header: <div data-testid="header">Header</div>,
 }
@@ -35,25 +34,38 @@ describe('DetailPageLayout', () => {
     expect(screen.getByTestId('detail-page-spinner')).toBeInTheDocument()
   })
 
-  it('shows not found message when notFound is true', () => {
+  it('does not show content when loading', () => {
+    render(<DetailPageLayout {...defaultProps} isLoading />)
+    expect(screen.queryByTestId('header')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('detail-page-nav')).not.toBeInTheDocument()
+  })
+
+  it('shows error message when isError is true', () => {
     render(
       <DetailPageLayout
         {...defaultProps}
-        notFound
-        notFoundMessage="Issue not found."
+        isError
+        errorMessage="Something went wrong."
       />,
     )
-    expect(screen.getByText('Issue not found.')).toBeInTheDocument()
+    expect(screen.getByText('Something went wrong.')).toBeInTheDocument()
   })
 
-  it('does not show not found message when loading', () => {
-    render(<DetailPageLayout {...defaultProps} isLoading notFound />)
-    expect(screen.queryByText('Issue not found.')).not.toBeInTheDocument()
+  it('shows default error message when none is provided', () => {
+    render(<DetailPageLayout {...defaultProps} isError />)
+    expect(screen.getByText('Not found.')).toBeInTheDocument()
   })
 
-  it('renders header when not loading and not notFound', () => {
-    render(<DetailPageLayout {...defaultProps} />)
-    expect(screen.getByTestId('header')).toBeInTheDocument()
+  it('does not show error when loading even if isError is true', () => {
+    render(
+      <DetailPageLayout
+        {...defaultProps}
+        isLoading
+        isError
+        errorMessage="Error"
+      />,
+    )
+    expect(screen.queryByText('Error')).not.toBeInTheDocument()
   })
 
   it('renders nav with correct props', () => {
@@ -66,6 +78,11 @@ describe('DetailPageLayout', () => {
     )
   })
 
+  it('renders header when not loading and not error', () => {
+    render(<DetailPageLayout {...defaultProps} />)
+    expect(screen.getByTestId('header')).toBeInTheDocument()
+  })
+
   it('renders body when provided', () => {
     render(<DetailPageLayout {...defaultProps} body="**Hello world**" />)
     expect(screen.getByText('Hello world')).toBeInTheDocument()
@@ -73,7 +90,7 @@ describe('DetailPageLayout', () => {
 
   it('does not render body card when body is null', () => {
     render(<DetailPageLayout {...defaultProps} body={null} />)
-    expect(screen.queryByText('prose')).not.toBeInTheDocument()
+    expect(screen.queryByRole('article')).not.toBeInTheDocument()
   })
 
   it('renders footer when provided', () => {
@@ -84,5 +101,10 @@ describe('DetailPageLayout', () => {
       />,
     )
     expect(screen.getByTestId('footer')).toBeInTheDocument()
+  })
+
+  it('does not render footer when not provided', () => {
+    render(<DetailPageLayout {...defaultProps} />)
+    expect(screen.queryByTestId('footer')).not.toBeInTheDocument()
   })
 })

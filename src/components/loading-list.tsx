@@ -4,6 +4,8 @@ export type LoadingListProps = {
   isLoading: boolean
   isEmpty: boolean
   emptyMessage?: string | null
+  isError: boolean
+  errorMessage?: string | null
   children: React.ReactNode
   footer?: React.ReactNode
 }
@@ -12,6 +14,8 @@ export function LoadingList({
   isLoading,
   isEmpty,
   emptyMessage = 'No items found.',
+  isError,
+  errorMessage = 'Some error occured.',
   children,
   footer,
 }: LoadingListProps) {
@@ -21,6 +25,10 @@ export function LoadingList({
         <Spinner size="md" />
       </div>
     )
+  }
+
+  if (isError && errorMessage) {
+    return <p className="py-12 text-center text-destructive">{errorMessage}</p>
   }
 
   if (isEmpty && emptyMessage) {

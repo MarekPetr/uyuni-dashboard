@@ -4,7 +4,7 @@ import { issueCommentsInfiniteQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { CommentCard } from '@/components/cards/comment-card'
 import { InfiniteScrollFooter } from '@/components/infinite-scroll-footer'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
+import { getErrorMessage } from '@/lib/github/error'
 
 export type IssueCommentsProps = {
   issueNumber: number
@@ -12,8 +12,14 @@ export type IssueCommentsProps = {
 }
 
 export function IssueComments({ issueNumber, totalCount }: IssueCommentsProps) {
-  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery(issueCommentsInfiniteQueryOptions(issueNumber))
+  const {
+    data,
+    error,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery(issueCommentsInfiniteQueryOptions(issueNumber))
 
   const commentsList = data?.pages.flatMap((p) => p.data) ?? []
 
@@ -23,8 +29,8 @@ export function IssueComments({ issueNumber, totalCount }: IssueCommentsProps) {
 
   if (commentsList.length === 0) return null
 
-  const isError403 = (error as AxiosError | null)?.status === 403
-  const errorMessage = isError403 ? RATE_LIMITS_EXCEEDED_MESSAGE : null
+  const apiError = error as AxiosError | null
+  const errorMessage = getErrorMessage(apiError)
 
   return (
     <div className="space-y-4">
@@ -35,7 +41,7 @@ export function IssueComments({ issueNumber, totalCount }: IssueCommentsProps) {
       <InfiniteScrollFooter
         sentinelRef={sentinelRef}
         isFetchingNextPage={isFetchingNextPage}
-        isError={isError403}
+        isError={isError}
         errorMessage={errorMessage}
       />
     </div>

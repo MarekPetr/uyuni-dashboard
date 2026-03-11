@@ -20,7 +20,7 @@ export function InfiniteScrollFooter({
     >
       {isFetchingNextPage && <Spinner size="sm" />}
       {isError && errorMessage && (
-        <p className="text-sm text-muted-foreground">{errorMessage}</p>
+        <p className="text-sm text-destructive">{errorMessage}</p>
       )}
     </div>
   )

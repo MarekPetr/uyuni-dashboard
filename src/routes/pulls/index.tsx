@@ -8,7 +8,7 @@ import { LoadingList } from '@/components/loading-list'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { PullRequestRow } from '@/components/pull-request-row'
 import { InfiniteScrollFooter } from '@/components/infinite-scroll-footer'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
+import { getErrorMessage } from '@/lib/github/error'
 
 type PullsSearch = Omit<PullRequestSearchParams, 'page' | 'per_page'>
 
@@ -27,6 +27,7 @@ function PullRequestsPage() {
   const {
     data,
     error,
+    isError,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -38,10 +39,9 @@ function PullRequestsPage() {
   })
 
   const apiError = error as AxiosError | null
-  const isError403 = apiError?.status === 403
-  const errorMessage = isError403
-    ? RATE_LIMITS_EXCEEDED_MESSAGE
-    : 'No pull requests found.'
+  const errorMessage = getErrorMessage(apiError)
+
+  const isEmpty = pulls.length === 0
 
   return (
     <div className="space-y-4">
@@ -51,13 +51,15 @@ function PullRequestsPage() {
       />
       <LoadingList
         isLoading={isLoading}
-        isEmpty={pulls.length === 0}
+        isEmpty={isEmpty}
         emptyMessage={errorMessage}
+        isError={isError}
+        errorMessage={errorMessage}
         footer={
           <InfiniteScrollFooter
             sentinelRef={sentinelRef}
             isFetchingNextPage={isFetchingNextPage}
-            isError={!!apiError}
+            isError={!isEmpty && !!apiError}
             errorMessage={errorMessage}
           />
         }
