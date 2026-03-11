@@ -30,7 +30,7 @@ function DashboardPage() {
   const closedIssues = useQuery(searchCountQueryOptions('issue', 'closed'))
   const openPRs = useQuery(searchCountQueryOptions('pr', 'open'))
   const closedPRs = useQuery(searchCountQueryOptions('pr', 'closed'))
-  const labelsCount = useQuery(labelsCountQueryOptions())
+  const labels = useQuery(labelsCountQueryOptions())
   const projects = useQuery(projectsCountQueryOptions())
 
   const queries = [
@@ -39,7 +39,7 @@ function DashboardPage() {
     closedIssues,
     openPRs,
     closedPRs,
-    labelsCount,
+    labels,
     projects,
   ]
 
@@ -112,9 +112,9 @@ function DashboardPage() {
       <div className="grid gap-4 sm:grid-cols-2">
         <StatCard
           title="Labels"
-          value={labelsCount.data}
+          value={labels.data}
           icon={TagIcon}
-          isLoading={labelsCount.isLoading}
+          isLoading={labels.isLoading}
         />
         <StatCard
           title="Open Projects"
