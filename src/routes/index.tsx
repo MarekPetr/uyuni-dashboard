@@ -17,7 +17,7 @@ import {
 } from '@/lib/github/queries'
 import { StatCard } from '@/components/cards/stat-card'
 import {
-  GENERIC_ERROR_MESSAGE,
+  GENERAL_ERROR_MESSAGE,
   RATE_LIMITS_EXCEEDED_MESSAGE,
 } from '@/lib/github/error'
 import { OWNER, REPO } from '@/lib/github/client'
@@ -47,7 +47,7 @@ function DashboardPage() {
   const isError403 = queries.some((q) => q.error?.status === 403)
   const errorMessage = isError403
     ? RATE_LIMITS_EXCEEDED_MESSAGE
-    : GENERIC_ERROR_MESSAGE
+    : GENERAL_ERROR_MESSAGE
 
   return (
     <div className="space-y-6">
