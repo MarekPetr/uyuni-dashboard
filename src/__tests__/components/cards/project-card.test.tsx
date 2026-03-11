@@ -43,11 +43,6 @@ describe('ProjectCard', () => {
 
   it('renders the short description when provided', () => {
     render(<ProjectCard project={baseProject} />)
-    expect(screen.getByTestId('project-description')).toBeInTheDocument()
-  })
-
-  it('renders the short description when provided', () => {
-    render(<ProjectCard project={baseProject} />)
     expect(screen.getByTestId('project-description')).toHaveTextContent(
       'Tracking progress of Uyuni development',
     )

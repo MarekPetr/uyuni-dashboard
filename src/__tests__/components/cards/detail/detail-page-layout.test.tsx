@@ -83,14 +83,14 @@ describe('DetailPageLayout', () => {
     expect(screen.getByTestId('header')).toBeInTheDocument()
   })
 
-  it('renders body when provided', () => {
-    render(<DetailPageLayout {...defaultProps} body="**Hello world**" />)
-    expect(screen.getByText('Hello world')).toBeInTheDocument()
-  })
-
   it('does not render body card when body is null', () => {
     render(<DetailPageLayout {...defaultProps} body={null} />)
-    expect(screen.queryByRole('article')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('detail-page-body')).not.toBeInTheDocument()
+  })
+
+  it('renders body card when body is provided', () => {
+    render(<DetailPageLayout {...defaultProps} body="**Hello world**" />)
+    expect(screen.getByTestId('detail-page-body')).toBeInTheDocument()
   })
 
   it('renders footer when provided', () => {

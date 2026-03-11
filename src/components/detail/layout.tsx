@@ -41,7 +41,7 @@ export function DetailPageLayout({
       <DetailPageNav backTo={backTo} externalUrl={externalUrl} />
       {header}
       {body && (
-        <Card>
+        <Card data-testid="detail-page-body">
           <CardContent className="prose prose-invert max-w-none pt-6">
             <ReactMarkdown>{body}</ReactMarkdown>
           </CardContent>
