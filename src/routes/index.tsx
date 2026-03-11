@@ -33,26 +33,18 @@ function DashboardPage() {
   const labelsCount = useQuery(labelsCountQueryOptions())
   const projects = useQuery(projectsCountQueryOptions())
 
-  const errorOccured = [
-    repo.isError,
-    openIssues.isError,
-    closedIssues.isError,
-    openPRs.isError,
-    closedPRs.isError,
-    labelsCount.isError,
-    projects.isError,
-  ].some((isError) => isError)
+  const queries = [
+    repo,
+    openIssues,
+    closedIssues,
+    openPRs,
+    closedPRs,
+    labelsCount,
+    projects,
+  ]
 
-  const isError403 = [
-    repo.error,
-    openIssues.error,
-    closedIssues.error,
-    openPRs.error,
-    closedPRs.error,
-    labelsCount.error,
-    projects.error,
-  ].some((error) => error?.status === 403)
-
+  const errorOccured = queries.some((q) => q.isError)
+  const isError403 = queries.some((q) => q.error?.status === 403)
   const errorMessage = isError403
     ? RATE_LIMITS_EXCEEDED_MESSAGE
     : GENERIC_ERROR_MESSAGE
