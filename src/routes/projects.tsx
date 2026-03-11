@@ -6,7 +6,7 @@ import { ProjectCard } from '@/components/cards/project-card'
 import { LoadingGrid } from '@/components/loading-grid'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { Spinner } from '@/components/spinner'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/errors'
+import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
 
 export const Route = createFileRoute('/projects')({
   component: ProjectsPage,

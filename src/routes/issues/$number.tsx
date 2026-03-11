@@ -5,7 +5,7 @@ import { issueQueryOptions } from '@/lib/github/queries'
 import { DetailPageLayout } from '@/components/detail/layout'
 import { IssueHeader } from '@/components/detail/issue/header'
 import { IssueComments } from '@/components/detail/issue/comments'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/errors'
+import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
 
 export const Route = createFileRoute('/issues/$number')({
   component: IssueDetailPage,

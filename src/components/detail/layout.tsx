@@ -27,7 +27,7 @@ export function DetailPageLayout({
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
-        <Spinner size="md" />
+        <Spinner size="md" data-testid="detail-page-spinner" />
       </div>
     )
   }

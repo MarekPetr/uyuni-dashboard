@@ -16,6 +16,9 @@ import { getToken } from '@/lib/github/token-storage'
 const OWNER = 'uyuni-project'
 const REPO = 'uyuni'
 
+export const RATE_LIMITS_EXCEEDED_MESSAGE =
+  'GitHub API rate limit may be exceeded. Add a personal access token in the sidebar to increase your limit.'
+
 export function parseLinkHeader(header: string | null): PaginationInfo {
   const info: PaginationInfo = {
     nextPage: null,

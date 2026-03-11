@@ -4,7 +4,7 @@ import { issueCommentsInfiniteQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { CommentCard } from '@/components/cards/comment-card'
 import { InfiniteScrollFooter } from '@/components/infinite-scroll-footer'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/errors'
+import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
 
 export type IssueCommentsProps = {
   issueNumber: number

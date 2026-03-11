@@ -7,8 +7,8 @@ import { IssueRow } from '@/components/issue-row'
 import { IssuesFilterBar } from '@/components/filter-bar/issues-filter-bar'
 import { LoadingList } from '@/components/loading-list'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/errors'
 import { InfiniteScrollFooter } from '@/components/infinite-scroll-footer'
+import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
 
 type IssuesSearch = Omit<IssueSearchParams, 'page' | 'per_page'>
 

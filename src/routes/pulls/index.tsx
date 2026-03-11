@@ -7,8 +7,8 @@ import { PullsFilterBar } from '@/components/filter-bar/pulls-filter-bar'
 import { LoadingList } from '@/components/loading-list'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { PullRequestRow } from '@/components/pull-request-row'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/errors'
 import { InfiniteScrollFooter } from '@/components/infinite-scroll-footer'
+import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
 
 type PullsSearch = Omit<PullRequestSearchParams, 'page' | 'per_page'>
 

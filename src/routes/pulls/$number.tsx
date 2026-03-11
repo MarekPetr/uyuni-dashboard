@@ -4,7 +4,7 @@ import type { AxiosError } from 'axios'
 import { pullRequestQueryOptions } from '@/lib/github/queries'
 import { DetailPageLayout } from '@/components/detail/layout'
 import { PullRequestHeader } from '@/components/detail/pull-header'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/errors'
+import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
 
 export const Route = createFileRoute('/pulls/$number')({
   component: PullRequestDetailPage,

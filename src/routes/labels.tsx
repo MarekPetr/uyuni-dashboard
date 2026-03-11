@@ -6,7 +6,7 @@ import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { LabelCard } from '@/components/cards/label-card'
 import { Spinner } from '@/components/spinner'
 import { LoadingGrid } from '@/components/loading-grid'
-import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/errors'
+import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/client'
 
 export const Route = createFileRoute('/labels')({
   component: LabelsPage,
