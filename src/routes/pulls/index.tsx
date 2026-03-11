@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import type { PullRequestSearchParams } from '@/lib/github/types'
-import type { AxiosError } from 'axios'
 import { pullRequestsInfiniteQueryOptions } from '@/lib/github/queries'
 import { PullsFilterBar } from '@/components/filter-bar/pulls-filter-bar'
 import { LoadingList } from '@/components/loading-list'
@@ -38,8 +37,7 @@ function PullRequestsPage() {
     enabled: hasNextPage && !isFetchingNextPage,
   })
 
-  const apiError = error as AxiosError | null
-  const errorMessage = getErrorMessage(apiError)
+  const errorMessage = getErrorMessage(error)
 
   const isEmpty = pulls.length === 0
 
@@ -59,7 +57,7 @@ function PullRequestsPage() {
           <InfiniteScrollFooter
             sentinelRef={sentinelRef}
             isFetchingNextPage={isFetchingNextPage}
-            isError={!isEmpty && !!apiError}
+            isError={!isEmpty && isError}
             errorMessage={errorMessage}
           />
         }

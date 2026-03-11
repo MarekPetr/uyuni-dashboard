@@ -4,6 +4,7 @@ import type {
   IssueComment,
   IssueSearchParams,
   Label,
+  Languages,
   PaginatedResponse,
   PaginationInfo,
   Project,
@@ -191,8 +192,8 @@ export async function getSearchCount(
   return response.data.total_count
 }
 
-export async function getLanguages(): Promise<Record<string, number>> {
-  const { data } = await github.get<Record<string, number>>('/languages')
+export async function getLanguages(): Promise<Languages> {
+  const { data } = await github.get<Languages>('/languages')
   return data
 }
 

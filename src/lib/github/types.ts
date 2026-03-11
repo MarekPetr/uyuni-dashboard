@@ -192,3 +192,5 @@ export type PullRequestSearchParams = {
   per_page?: number
   page?: number
 }
+
+export type Languages = Record<string, number>

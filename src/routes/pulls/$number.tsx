@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import type { AxiosError } from 'axios'
 import { pullRequestQueryOptions } from '@/lib/github/queries'
 import { DetailPageLayout } from '@/components/detail/layout'
 import { PullRequestHeader } from '@/components/detail/pull-header'
@@ -17,18 +16,18 @@ function PullRequestDetailPage() {
   const {
     data: pr,
     error,
+    isError,
     isLoading,
   } = useQuery(pullRequestQueryOptions(prNumber))
 
-  const apiError = error as AxiosError | null
-  const errorMessage = getErrorMessage(apiError)
+  const errorMessage = getErrorMessage(error)
 
   return (
     <DetailPageLayout
       backTo="/pulls"
       externalUrl={pr?.html_url ?? ''}
       body={pr?.body}
-      isError={!!apiError}
+      isError={isError}
       errorMessage={errorMessage}
       isLoading={isLoading}
       header={pr && <PullRequestHeader pr={pr} />}

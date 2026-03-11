@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import type { AxiosError } from 'axios'
 import { projectsQueryOptions } from '@/lib/github/queries'
 import { ProjectCard } from '@/components/cards/project-card'
 import { LoadingGrid } from '@/components/loading-grid'
@@ -27,8 +26,7 @@ function ProjectsPage() {
   })
   const projects = data?.pages.flatMap((page) => page.data) ?? []
 
-  const apiError = error as AxiosError | null
-  const errorMessage = getErrorMessage(apiError)
+  const errorMessage = getErrorMessage(error)
   const isEmpty = projects.length === 0
 
   return (

@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import type { IssueSearchParams } from '@/lib/github/types'
-import type { AxiosError } from 'axios'
 import { issuesInfiniteQueryOptions } from '@/lib/github/queries'
 import { IssueRow } from '@/components/issue-row'
 import { IssuesFilterBar } from '@/components/filter-bar/issues-filter-bar'
@@ -26,6 +25,7 @@ function IssuesPage() {
   const navigate = Route.useNavigate()
   const {
     data,
+    isError,
     error,
     fetchNextPage,
     hasNextPage,
@@ -36,9 +36,7 @@ function IssuesPage() {
   const sentinelRef = useIntersectionObserver(fetchNextPage, {
     enabled: hasNextPage && !isFetchingNextPage,
   })
-
-  const apiError = error as AxiosError | null
-  const errorMessage = getErrorMessage(apiError)
+  const errorMessage = getErrorMessage(error)
   const isEmpty = issues.length === 0
 
   return (
@@ -51,13 +49,13 @@ function IssuesPage() {
         isLoading={isLoading}
         isEmpty={isEmpty}
         emptyMessage="No issues found."
-        isError={!!apiError}
+        isError={isError}
         errorMessage={errorMessage}
         footer={
           <InfiniteScrollFooter
             sentinelRef={sentinelRef}
             isFetchingNextPage={isFetchingNextPage}
-            isError={!isEmpty && !!apiError}
+            isError={!isEmpty && isError}
             errorMessage={errorMessage}
           />
         }

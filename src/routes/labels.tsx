@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import type { AxiosError } from 'axios'
 import { labelsQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { LabelCard } from '@/components/cards/label-card'
@@ -27,9 +26,7 @@ function LabelsPage() {
   })
   const labels = data?.pages.flatMap((page) => page.data) ?? []
 
-  const apiError = error as AxiosError | null
-  const errorMessage = getErrorMessage(apiError)
-
+  const errorMessage = getErrorMessage(error)
   const isEmpty = labels.length === 0
 
   return (
@@ -46,7 +43,7 @@ function LabelsPage() {
           className="flex justify-center items-center py-4"
         >
           {isFetchingNextPage && <Spinner size="sm" />}
-          {!isEmpty && apiError && (
+          {!isEmpty && isError && (
             <p className="text-sm text-destructive">{errorMessage}</p>
           )}
         </div>

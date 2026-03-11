@@ -1,5 +1,4 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
-import type { AxiosError } from 'axios'
 import { issueCommentsInfiniteQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { CommentCard } from '@/components/cards/comment-card'
@@ -29,9 +28,6 @@ export function IssueComments({ issueNumber, totalCount }: IssueCommentsProps) {
 
   if (commentsList.length === 0) return null
 
-  const apiError = error as AxiosError | null
-  const errorMessage = getErrorMessage(apiError)
-
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Comments ({totalCount})</h2>
@@ -42,7 +38,7 @@ export function IssueComments({ issueNumber, totalCount }: IssueCommentsProps) {
         sentinelRef={sentinelRef}
         isFetchingNextPage={isFetchingNextPage}
         isError={isError}
-        errorMessage={errorMessage}
+        errorMessage={getErrorMessage(error)}
       />
     </div>
   )

@@ -8,7 +8,6 @@ import {
   StarIcon,
   TagIcon,
 } from 'lucide-react'
-import type { AxiosError } from 'axios'
 import { LanguageChart } from '@/components/language-chart'
 import {
   labelsCountQueryOptions,
@@ -51,7 +50,7 @@ function DashboardPage() {
     closedPRs.error,
     labelsCount.error,
     projects.error,
-  ].some((error) => (error as AxiosError | null)?.status === 403)
+  ].some((error) => error?.status === 403)
 
   const errorMessage = isError403
     ? RATE_LIMITS_EXCEEDED_MESSAGE

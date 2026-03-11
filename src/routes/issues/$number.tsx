@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import type { AxiosError } from 'axios'
 import { issueQueryOptions } from '@/lib/github/queries'
 import { DetailPageLayout } from '@/components/detail/layout'
 import { IssueHeader } from '@/components/detail/issue/header'
@@ -18,19 +17,17 @@ function IssueDetailPage() {
   const {
     data: issue,
     error,
+    isError,
     isLoading,
   } = useQuery(issueQueryOptions(issueNumber))
-
-  const apiError = error as AxiosError | null
-  const errorMessage = getErrorMessage(apiError)
 
   return (
     <DetailPageLayout
       backTo="/issues"
       externalUrl={issue?.html_url ?? ''}
       body={issue?.body}
-      isError={!!apiError}
-      errorMessage={errorMessage}
+      isError={isError}
+      errorMessage={getErrorMessage(error)}
       isLoading={isLoading}
       header={issue && <IssueHeader issue={issue} />}
       footer={
