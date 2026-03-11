@@ -43,7 +43,7 @@ export function TokenSettings({ onTokenChange }: TokenSettingsProps) {
           >
             GitHub token
           </a>{' '}
-          to increase rate limits and access projects.
+          to increase rate limits.
         </p>
         <Input
           type="password"

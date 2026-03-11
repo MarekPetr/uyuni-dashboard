@@ -7,6 +7,7 @@ export type DetailPageLayoutProps = {
   backTo: string
   externalUrl: string
   body: string | null | undefined
+  notFound: boolean
   notFoundMessage: string
   isLoading: boolean
   header: React.ReactNode
@@ -17,6 +18,7 @@ export function DetailPageLayout({
   backTo,
   externalUrl,
   body,
+  notFound,
   notFoundMessage,
   isLoading,
   header,
@@ -30,7 +32,7 @@ export function DetailPageLayout({
     )
   }
 
-  if (!externalUrl) {
+  if (notFound) {
     return (
       <p className="py-12 text-center text-muted-foreground">
         {notFoundMessage}

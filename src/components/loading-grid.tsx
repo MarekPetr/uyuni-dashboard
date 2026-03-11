@@ -4,7 +4,7 @@ export type LoadingGridProps = {
   title: string
   isLoading: boolean
   isEmpty: boolean
-  emptyMessage?: string
+  emptyMessage?: string | null
   children: React.ReactNode
   footer?: React.ReactNode
 }
@@ -24,7 +24,7 @@ export function LoadingGrid({
         <div className="flex justify-center py-12">
           <Spinner size="md" />
         </div>
-      ) : isEmpty ? (
+      ) : isEmpty && emptyMessage ? (
         <p className="py-12 text-center text-muted-foreground">
           {emptyMessage}
         </p>

@@ -14,8 +14,9 @@ const spinnerVariants = cva('animate-spin text-muted-foreground', {
   },
 })
 
-type SpinnerProps = VariantProps<typeof spinnerVariants>
+type SpinnerProps = VariantProps<typeof spinnerVariants> &
+  React.ComponentProps<typeof LoaderIcon>
 
-export function Spinner({ size }: SpinnerProps) {
-  return <LoaderIcon className={spinnerVariants({ size })} />
+export function Spinner({ size, ...props }: SpinnerProps) {
+  return <LoaderIcon className={spinnerVariants({ size })} {...props} />
 }

@@ -1,8 +1,10 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
+import type { AxiosError } from 'axios'
 import { issueCommentsInfiniteQueryOptions } from '@/lib/github/queries'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 import { CommentCard } from '@/components/cards/comment-card'
-import { Spinner } from '@/components/spinner'
+import { InfiniteScrollFooter } from '@/components/infinite-scroll-footer'
+import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/errors'
 
 export type IssueCommentsProps = {
   issueNumber: number
@@ -10,17 +12,19 @@ export type IssueCommentsProps = {
 }
 
 export function IssueComments({ issueNumber, totalCount }: IssueCommentsProps) {
-  const comments = useInfiniteQuery(
-    issueCommentsInfiniteQueryOptions(issueNumber),
-  )
+  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery(issueCommentsInfiniteQueryOptions(issueNumber))
 
-  const commentsList = comments.data?.pages.flatMap((p) => p.data) ?? []
+  const commentsList = data?.pages.flatMap((p) => p.data) ?? []
 
-  const sentinelRef = useIntersectionObserver(comments.fetchNextPage, {
-    enabled: comments.hasNextPage && !comments.isFetchingNextPage,
+  const sentinelRef = useIntersectionObserver(fetchNextPage, {
+    enabled: hasNextPage && !isFetchingNextPage,
   })
 
   if (commentsList.length === 0) return null
+
+  const isError403 = (error as AxiosError | null)?.status === 403
+  const errorMessage = isError403 ? RATE_LIMITS_EXCEEDED_MESSAGE : null
 
   return (
     <div className="space-y-4">
@@ -28,9 +32,12 @@ export function IssueComments({ issueNumber, totalCount }: IssueCommentsProps) {
       {commentsList.map((comment) => (
         <CommentCard key={comment.id} comment={comment} />
       ))}
-      <div ref={sentinelRef} className="flex justify-center py-2">
-        {comments.isFetchingNextPage && <Spinner size="sm" />}
-      </div>
+      <InfiniteScrollFooter
+        sentinelRef={sentinelRef}
+        isFetchingNextPage={isFetchingNextPage}
+        isError={isError403}
+        errorMessage={errorMessage}
+      />
     </div>
   )
 }

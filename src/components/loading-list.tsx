@@ -3,7 +3,7 @@ import { Spinner } from '@/components/spinner'
 export type LoadingListProps = {
   isLoading: boolean
   isEmpty: boolean
-  emptyMessage?: string
+  emptyMessage?: string | null
   children: React.ReactNode
   footer?: React.ReactNode
 }
@@ -23,7 +23,7 @@ export function LoadingList({
     )
   }
 
-  if (isEmpty) {
+  if (isEmpty && emptyMessage) {
     return (
       <p className="py-12 text-center text-muted-foreground">{emptyMessage}</p>
     )

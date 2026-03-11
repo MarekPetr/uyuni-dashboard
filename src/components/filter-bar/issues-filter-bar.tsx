@@ -11,7 +11,6 @@ export type IssuesFilterBarProps = {
 const SORT_OPTIONS = [
   { value: 'created', label: 'Created' },
   { value: 'updated', label: 'Updated' },
-  { value: 'comments', label: 'Comments' },
 ]
 
 export function IssuesFilterBar({

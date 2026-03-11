@@ -27,15 +27,15 @@ export function FilterBar<
 >({ title, search, onSearchChange, sortOptions }: FilterBarProps<T>) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-2">
-      <h1 className="text-2xl font-bold">{title}</h1>
+      <h1 className="text-2xl font-bold" data-testid="filter-bar-title">
+        {title}
+      </h1>
       <div className="flex flex-wrap items-center gap-2">
         <Select
           value={search.state ?? 'open'}
-          onValueChange={(value) =>
-            onSearchChange({ ...search, state: value })
-          }
+          onValueChange={(value) => onSearchChange({ ...search, state: value })}
         >
-          <SelectTrigger className="w-32">
+          <SelectTrigger className="w-32" data-testid="filter-bar-state">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -47,11 +47,9 @@ export function FilterBar<
 
         <Select
           value={search.sort ?? 'created'}
-          onValueChange={(value) =>
-            onSearchChange({ ...search, sort: value })
-          }
+          onValueChange={(value) => onSearchChange({ ...search, sort: value })}
         >
-          <SelectTrigger className="w-32">
+          <SelectTrigger className="w-32" data-testid="filter-bar-sort">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -66,6 +64,7 @@ export function FilterBar<
         <Button
           variant="outline"
           size="sm"
+          data-testid="filter-bar-direction"
           onClick={() =>
             onSearchChange({
               ...search,

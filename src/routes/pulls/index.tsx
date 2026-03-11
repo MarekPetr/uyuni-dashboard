@@ -1,12 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import type { PullRequestSearchParams } from '@/lib/github/types'
+import type { AxiosError } from 'axios'
 import { pullRequestsInfiniteQueryOptions } from '@/lib/github/queries'
 import { PullsFilterBar } from '@/components/filter-bar/pulls-filter-bar'
 import { LoadingList } from '@/components/loading-list'
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
-import { Spinner } from '@/components/spinner'
 import { PullRequestRow } from '@/components/pull-request-row'
+import { RATE_LIMITS_EXCEEDED_MESSAGE } from '@/lib/github/errors'
+import { InfiniteScrollFooter } from '@/components/infinite-scroll-footer'
 
 type PullsSearch = Omit<PullRequestSearchParams, 'page' | 'per_page'>
 
@@ -22,12 +24,24 @@ export const Route = createFileRoute('/pulls/')({
 function PullRequestsPage() {
   const search = Route.useSearch()
   const navigate = Route.useNavigate()
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useInfiniteQuery(pullRequestsInfiniteQueryOptions(search))
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteQuery(pullRequestsInfiniteQueryOptions(search))
   const pulls = data?.pages.flatMap((page) => page.data) ?? []
   const sentinelRef = useIntersectionObserver(fetchNextPage, {
     enabled: hasNextPage && !isFetchingNextPage,
   })
+
+  const apiError = error as AxiosError | null
+  const isError403 = apiError?.status === 403
+  const errorMessage = isError403
+    ? RATE_LIMITS_EXCEEDED_MESSAGE
+    : 'No pull requests found.'
 
   return (
     <div className="space-y-4">
@@ -38,11 +52,14 @@ function PullRequestsPage() {
       <LoadingList
         isLoading={isLoading}
         isEmpty={pulls.length === 0}
-        emptyMessage="No pull requests found."
+        emptyMessage={errorMessage}
         footer={
-          <div ref={sentinelRef} className="flex justify-center py-4">
-            {isFetchingNextPage && <Spinner size="sm" />}
-          </div>
+          <InfiniteScrollFooter
+            sentinelRef={sentinelRef}
+            isFetchingNextPage={isFetchingNextPage}
+            isError={!!apiError}
+            errorMessage={errorMessage}
+          />
         }
       >
         {pulls.map((pullRequest) => (

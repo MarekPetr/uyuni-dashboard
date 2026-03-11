@@ -145,7 +145,7 @@ export type Project = {
   number: number
   title: string
   short_description: string | null
-  closed_at: boolean
+  closed_at: string | null
   created_at: string
   updated_at: string
   creator: {
