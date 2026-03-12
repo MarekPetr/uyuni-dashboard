@@ -38,7 +38,6 @@ function PullRequestsPage() {
   })
 
   const errorMessage = getErrorMessage(error)
-
   const isEmpty = pulls.length === 0
 
   return (
@@ -50,7 +49,7 @@ function PullRequestsPage() {
       <LoadingList
         isLoading={isLoading}
         isEmpty={isEmpty}
-        emptyMessage={errorMessage}
+        emptyMessage='No pull requests found.'
         isError={isError}
         errorMessage={errorMessage}
         footer={
